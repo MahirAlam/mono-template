@@ -1,1 +1,5 @@
-module.exports = require("@tera/tailwind-config/postcss-config");
+export default {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+};

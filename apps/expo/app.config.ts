@@ -14,6 +14,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   newArchEnabled: true,
   assetBundlePatterns: ["**/*"],
+  web: {
+    bundler: "metro",
+  },
   ios: {
     bundleIdentifier: "your.bundle.identifier",
     supportsTablet: true,
