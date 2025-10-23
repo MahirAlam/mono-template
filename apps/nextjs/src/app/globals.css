@@ -4,7 +4,8 @@
 
 @source '../../../../packages/ui/src/*.{ts,tsx}';
 
-@custom-variant dark (&:is(.dark *));
+@variant dark (&:is(.dark *));
+@variant dark (@media (prefers-color-scheme: dark));
 
 @utility container {
   margin-inline: auto;
