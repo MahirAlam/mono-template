@@ -32,7 +32,6 @@
     "overrides": {
       "react-native-css": "3.0.1",
       "metro-runtime": "0.83.3",
-      "@expo/metro-runtime": "0.83.3",
       "lightningcss": "1.30.1"
     }
   },

@@ -1,34 +1,31 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { cn } from "@tera/ui";
-import { Toaster } from "@tera/ui/toast";
+import { basicInfo } from "@tera/config";
 
-import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
+import { Toaster } from "sonner";
+
 import ThemeProvider from "~/components/ThemeProvider";
+import { getBaseUrl } from "~/lib/helpers";
+import { cn } from "~/lib/utils";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
-      : "http://localhost:3000",
-  ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
-  openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
-    url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
+  metadataBase: new URL(getBaseUrl()),
+  title: {
+    template: `%s |  ${basicInfo.basic.title}`,
+    default: basicInfo.basic.title,
   },
-  twitter: {
-    card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+  applicationName: basicInfo.basic.title,
+  description: basicInfo.basic.description,
+  openGraph: {
+    title: basicInfo.basic.title,
+    description: basicInfo.basic.description,
+    url: getBaseUrl(),
+    siteName: basicInfo.basic.title,
   },
 };
 

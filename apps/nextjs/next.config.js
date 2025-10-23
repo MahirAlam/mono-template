@@ -12,7 +12,6 @@ const config = {
     "@tera/api",
     "@tera/auth",
     "@tera/db",
-    "@tera/ui",
     "@tera/validators",
   ],
 
