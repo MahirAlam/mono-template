@@ -1,1 +1,1 @@
-export { default } from "@tera/tailwind-config/postcss-config";
+export { default } from "../../tooling/tailwind/postcss.config.mjs";

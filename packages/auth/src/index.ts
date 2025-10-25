@@ -2,7 +2,7 @@ import type { BetterAuthOptions } from "better-auth";
 import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { oAuthProxy } from "better-auth/plugins";
+import { oAuthProxy, username } from "better-auth/plugins";
 
 import { db } from "@tera/db/client";
 
@@ -21,6 +21,7 @@ export function initAuth(options: {
     baseURL: options.baseUrl,
     secret: options.secret,
     plugins: [
+      username({}),
       oAuthProxy({
         productionURL: options.productionUrl,
       }),

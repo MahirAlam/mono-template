@@ -9,5 +9,5 @@
   },
   "tailwindCSS.classAttributes": ["class", "className"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["tera"]
+  "cSpell.words": ["tera", "uploadthing"]
 }

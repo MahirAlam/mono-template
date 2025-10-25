@@ -22,6 +22,9 @@ export const auth = initAuth({
   discordClientSecret: env.AUTH_DISCORD_SECRET,
 });
 
-export const getSession = cache(async () =>
-  auth.api.getSession({ headers: await headers() }),
-);
+export const getSession = cache(async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  return session;
+});

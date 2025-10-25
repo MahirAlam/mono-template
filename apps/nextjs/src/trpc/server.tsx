@@ -7,7 +7,7 @@ import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import type { AppRouter } from "@tera/api";
 import { appRouter, createTRPCContext } from "@tera/api";
 
-import { auth } from "~/auth/server";
+import { auth } from "~/lib/auth/server";
 import { createQueryClient } from "./query-client";
 
 /**

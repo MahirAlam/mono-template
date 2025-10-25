@@ -3,13 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { basicInfo } from "@tera/config";
 
-import { TRPCReactProvider } from "~/trpc/react";
+import "~/styles/globals.css";
 
-import "~/app/globals.css";
-
-import { Toaster } from "sonner";
-
-import ThemeProvider from "~/components/ThemeProvider";
+import Providers from "~/components/Providers";
 import { getBaseUrl } from "~/lib/helpers";
 import { cn } from "~/lib/utils";
 
@@ -50,15 +46,12 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "bg-background text-foreground min-h-screen font-sans antialiased",
+          "min-h-screen font-sans antialiased",
           geistSans.variable,
           geistMono.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
-          <Toaster />
-        </ThemeProvider>
+        <Providers>{props.children}</Providers>
       </body>
     </html>
   );

@@ -6,6 +6,9 @@ export const user = pgTable("user", (t) => ({
   email: t.text().notNull().unique(),
   emailVerified: t.boolean().notNull(),
   image: t.text(),
+  username: t.text().unique().notNull(),
+  bio: t.text(),
+  coverImage: t.text(),
   createdAt: t.timestamp().notNull(),
   updatedAt: t.timestamp().notNull(),
 }));
@@ -51,3 +54,11 @@ export const verification = pgTable("verification", (t) => ({
   createdAt: t.timestamp(),
   updatedAt: t.timestamp(),
 }));
+
+// export const userRelations = relations(user, ({ many }) => ({
+//   posts: many(Post),
+//   sentFriendRequests: many(friendRequests, { relationName: "requester" }),
+//   receivedFriendRequests: many(friendRequests, { relationName: "addressee" }),
+//   friendshipsAsLow: many(friendships, { relationName: "userLow" }),
+//   friendshipsAsHigh: many(friendships, { relationName: "userHigh" }),
+// }));

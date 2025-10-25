@@ -26,20 +26,37 @@ import { db } from "@tera/db/client";
  * @see https://trpc.io/docs/server/context
  */
 
+// This is the ideal fix. Define a type that uses the explicit imports.
+export interface TRPCContext {
+  // This is the complex type causing the issue.
+  // Try to get the explicit type from your auth package or define a simple placeholder
+  // and rely on your protected procedures to handle auth checks.
+  authApi: Auth["api"]; // Use the type of the `api` property on the imported Auth type.
+
+  // Type of the session returned by authApi.getSession()
+  session: Awaited<ReturnType<Auth["api"]["getSession"]>>;
+
+  // Type of your database client
+  db: typeof db;
+}
+
 export const createTRPCContext = async (opts: {
   headers: Headers;
   auth: Auth;
-}) => {
+}): Promise<TRPCContext> => {
+  // <<< ADDED THE EXPLICIT TYPE ANNOTATION
   const authApi = opts.auth.api;
   const session = await authApi.getSession({
     headers: opts.headers,
   });
+
   return {
     authApi,
     session,
     db,
   };
 };
+
 /**
  * 2. INITIALIZATION
  *

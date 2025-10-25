@@ -22,7 +22,6 @@
     "@tera/db": "workspace:*",
     "@tera/validators": "workspace:*",
     "@trpc/server": "catalog:",
-    "pg": "^8.16.3",
     "superjson": "2.2.2",
     "zod": "catalog:"
   },
