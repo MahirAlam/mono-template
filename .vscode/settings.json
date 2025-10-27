@@ -9,5 +9,16 @@
   },
   "tailwindCSS.classAttributes": ["class", "className"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["tera", "uploadthing"]
+  "cSpell.words": [
+    "daveyplate",
+    "ilike",
+    "legendapp",
+    "reuseables",
+    "rgba",
+    "tabler",
+    "tera",
+    "tiptap",
+    "uploadthing"
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

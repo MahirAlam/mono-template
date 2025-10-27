@@ -2,12 +2,70 @@
 @import "tw-animate-css";
 @import "@tera/tailwind-config/theme";
 
+@import "./editor.css";
+@import "./components.css";
+@import "./typography.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @source './ui/*.{ts,tsx}';
 
 @variant dark (&:is(.dark *));
 @variant dark (@media (prefers-color-scheme: dark));
+
+@theme {
+  /* Define custom animation utilities using --animate-* variables */
+  --animate-shine: shine 2s linear infinite;
+  --animate-pulse-button: pulse-button 1.5s ease-in-out infinite;
+
+  --animate-shine: shine 3s ease-out infinite;
+  --animate-gradient-flow: gradientFlow 10s ease 0s infinite normal none running;
+
+  /* Define the @keyframes rules */
+  @keyframes shine {
+    0% {
+      background-position: 200% 0;
+    }
+    25% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @keyframes gradientFlow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Define the @keyframes */
+  @keyframes shine {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  @keyframes pulse-button {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+}
 
 @utility container {
   margin-inline: auto;
@@ -24,6 +82,7 @@
   * {
     @apply border-border;
   }
+
   body {
     letter-spacing: var(--tracking-normal);
   }
@@ -73,14 +132,5 @@
   html {
     scrollbar-width: thin;
     scrollbar-color: var(--accent) var(--background); /* thumb track */
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

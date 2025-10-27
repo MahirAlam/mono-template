@@ -34,11 +34,11 @@ export const viewport: Viewport = {
 
 const geistSans = Geist({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-sans",
 });
 const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-mono",
 });
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -46,7 +46,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen font-sans antialiased",
+          "overflow-x-hidden font-sans antialiased",
           geistSans.variable,
           geistMono.variable,
         )}

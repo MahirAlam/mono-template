@@ -1,3 +1,5 @@
+"use client";
+
 import type { ThemeProviderProps } from "next-themes";
 import type { ReactNode } from "react";
 import { AuthQueryProvider } from "@daveyplate/better-auth-tanstack";

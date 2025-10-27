@@ -1,0 +1,111 @@
+/* Typography System - Project Phoenix */
+
+@layer utilities {
+  /* Typography Scale using @apply */
+  .text-heading-xl {
+    @apply text-4xl leading-tight font-bold tracking-tight;
+    font-family: var(--font-magazine);
+  }
+
+  .text-heading-lg {
+    @apply text-3xl leading-tight font-bold tracking-tight;
+    font-family: var(--font-magazine);
+  }
+
+  .text-heading-md {
+    @apply text-2xl leading-snug font-semibold tracking-tight;
+  }
+
+  .text-heading-sm {
+    @apply text-xl leading-snug font-semibold;
+  }
+
+  .text-heading-xs {
+    @apply text-lg leading-snug font-semibold;
+  }
+
+  /* Body Text */
+  .text-body-xl {
+    @apply text-lg leading-relaxed font-normal;
+  }
+
+  .text-body-lg {
+    @apply text-base leading-relaxed font-normal;
+  }
+
+  .text-body-md {
+    @apply text-sm leading-relaxed font-normal;
+  }
+
+  .text-body-sm {
+    @apply text-xs leading-relaxed font-normal;
+  }
+
+  /* Specialized Text */
+  .text-caption {
+    @apply text-muted-foreground text-xs font-normal;
+  }
+
+  .text-label {
+    @apply text-foreground text-sm font-medium;
+  }
+
+  .text-overline {
+    @apply text-muted-foreground text-xs font-semibold tracking-wider uppercase;
+  }
+
+  /* Social Media Specific Typography */
+  .text-username {
+    @apply text-foreground hover:text-primary cursor-pointer text-sm font-semibold transition-colors;
+  }
+
+  .text-display-name {
+    @apply text-foreground text-base font-semibold;
+  }
+
+  .text-handle {
+    @apply text-muted-foreground text-sm font-normal;
+  }
+
+  .text-timestamp {
+    @apply text-muted-foreground hover:text-foreground cursor-pointer text-xs font-normal transition-colors;
+  }
+
+  .text-stats {
+    @apply text-muted-foreground text-sm font-medium;
+  }
+
+  .text-bio {
+    @apply text-foreground text-sm leading-relaxed;
+  }
+
+  /* Interactive Text */
+  .text-link {
+    @apply text-info hover:text-info/80 cursor-pointer underline-offset-2 transition-colors hover:underline;
+  }
+
+  .text-hashtag {
+    @apply text-info hover:text-info/80 cursor-pointer font-medium transition-colors;
+  }
+
+  .text-mention {
+    @apply text-primary hover:text-primary/80 cursor-pointer font-medium transition-colors;
+  }
+
+  /* Status Text */
+  .text-success {
+    @apply text-success font-medium;
+  }
+
+  .text-warning {
+    @apply text-warning font-medium;
+  }
+
+  .text-error {
+    @apply text-destructive font-medium;
+  }
+
+  .text-info {
+    @apply text-info font-medium;
+  }
+}

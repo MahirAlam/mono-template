@@ -31,9 +31,14 @@
   --sidebar-accent-foreground: oklch(0.2435 0 0);
   --sidebar-border: oklch(0.9037 0 0);
   --sidebar-ring: oklch(0.8348 0.1302 160.908);
-  --font-sans: Outfit, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: monospace;
+
+  --success: oklch(0.69 0.17 145);
+  --success-foreground: oklch(0.15 0.03 145);
+  --warning: oklch(0.8 0.15 85);
+  --warning-foreground: oklch(0.3 0.06 85);
+  --info: oklch(0.7 0.15 220);
+  --info-foreground: oklch(0.2 0.04 220);
+
   --radius: 0.5rem;
   --shadow-x: 0px;
   --shadow-y: 1px;
@@ -56,6 +61,15 @@
   --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
   --tracking-normal: 0.025em;
   --spacing: 0.25rem;
+
+  --destructive: oklch(65.44% 0.23167 26.46);
+  --destructive-foreground: oklch(75.704% 0.14538 27.521);
+  --success: oklch(70.25% 0.158 154.52);
+  --success-foreground: oklch(77.455% 0.14745 147.927);
+  --warning: oklch(75.06% 0.179 58.11);
+  --warning-foreground: oklch(72.541% 0.12272 68.886);
+  --info: oklch(64.17% 0.104 223.46);
+  --info-foreground: oklch(79.065% 0.11016 220.595);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,8 +88,6 @@
     --muted-foreground: oklch(0.7122 0 0);
     --accent: oklch(0.3132 0 0);
     --accent-foreground: oklch(0.9851 0 0);
-    --destructive: oklch(0.3123 0.0852 29.7877);
-    --destructive-foreground: oklch(0.9368 0.0045 34.3092);
     --border: oklch(0.2809 0 0);
     --input: oklch(0.2603 0 0);
     --ring: oklch(0.5595 0.1204 152.2524);
@@ -92,9 +104,12 @@
     --sidebar-accent-foreground: oklch(0.9851 0 0);
     --sidebar-border: oklch(0.2809 0 0);
     --sidebar-ring: oklch(0.8003 0.1821 151.711);
-    --font-sans: Outfit, sans-serif;
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    --font-mono: monospace;
+
+    --warning: oklch(0.7 0.13 90);
+    --warning-foreground: oklch(0.98 0.01 90);
+    --info: oklch(0.65 0.12 230);
+    --info-foreground: oklch(0.98 0.01 230);
+
     --radius: 0.5rem;
     --shadow-x: 0px;
     --shadow-y: 1px;
@@ -133,8 +148,6 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -176,4 +189,23 @@
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
   --tracking-wider: calc(var(--tracking-normal) + 0.05em);
   --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+
+  --shadow-lg-t:
+    0 -8px 10px -3px rgba(0, 0, 0, 0.1), 0 -4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-md-t:
+    0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.06);
+
+  --shadow-lg:
+    0 8px 10px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
 }

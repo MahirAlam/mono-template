@@ -74,6 +74,14 @@ export const baseConfig = defineConfig(
           allowConstantLoopConditions: true,
         },
       ],
+      "@typescript-eslint/no-redundant-type-constituents": [
+        "error",
+        {
+          types: {
+            JSONContent: "off",
+          },
+        },
+      ],
       "@typescript-eslint/no-non-null-assertion": "error",
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
     },

@@ -29,6 +29,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@tiptap/react": "catalog:",
     "drizzle-orm": "^0.44.6",
     "drizzle-zod": "^0.8.3",
     "pg": "^8.16.3",

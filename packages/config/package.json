@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "dev": "tsc",
+    "dev": "tsc --jsx react",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
@@ -22,5 +22,9 @@
     "prettier": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@tera/prettier-config"
+  "prettier": "@tera/prettier-config",
+  "dependencies": {
+    "@tabler/icons-react": "^3.35.0",
+    "lucide-react": "^0.546.0"
+  }
 }

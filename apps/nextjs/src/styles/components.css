@@ -1,0 +1,76 @@
+/* Component System - Project Phoenix */
+
+@layer components {
+  /* Card System - Removed unused classes, using CVA variants instead */
+
+  /* Interactive Elements */
+  .interactive-hover {
+    @apply transition-all duration-200 hover:scale-[1.02] hover:shadow-md;
+  }
+
+  .interactive-tap {
+    @apply transition-all duration-150 active:scale-95;
+  }
+
+  .interactive-scale {
+    @apply transition-transform duration-200 hover:scale-105 active:scale-95;
+  }
+
+  /* Avatar System */
+  .avatar-hover {
+    @apply hover:ring-primary/20 transition-all duration-200 hover:scale-105 hover:ring-2;
+  }
+
+  /* Focus System */
+  .focus-ring {
+    @apply focus:ring-primary focus:ring-offset-background focus:ring-2 focus:ring-offset-2 focus:outline-none;
+  }
+
+  /* Loading States */
+  .loading-spinner {
+    @apply animate-spin;
+  }
+
+  .skeleton {
+    @apply from-muted via-muted/50 to-muted animate-pulse bg-linear-to-r bg-size-[200%_100%];
+  }
+
+  /* Notification System */
+  .notification-badge {
+    @apply bg-destructive text-destructive-foreground border-background absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full border-2 text-xs font-semibold;
+  }
+
+  /* Media Grid System */
+  .media-grid {
+    @apply grid gap-2 overflow-hidden rounded-xl;
+  }
+
+  .media-grid[data-count="1"] {
+    @apply max-h-96 grid-cols-1;
+  }
+
+  .media-grid[data-count="2"] {
+    @apply max-h-80 grid-cols-2;
+  }
+
+  .media-grid[data-count="3"] {
+    @apply max-h-80 grid-cols-2 grid-rows-2;
+  }
+
+  .media-grid[data-count="3"] .media-item:first-child {
+    @apply row-span-2;
+  }
+
+  .media-grid[data-count="4"] {
+    @apply max-h-80 grid-cols-2 grid-rows-2;
+  }
+
+  .media-item {
+    @apply bg-muted relative min-h-32 overflow-hidden rounded-lg;
+  }
+
+  .media-item img,
+  .media-item video {
+    @apply h-full w-full object-cover;
+  }
+}

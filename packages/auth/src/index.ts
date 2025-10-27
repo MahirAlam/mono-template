@@ -34,6 +34,9 @@ export function initAuth(options: {
         redirectURI: `${options.baseUrl}/api/auth/callback/discord`,
       },
     },
+    emailAndPassword: {
+      enabled: true,
+    },
     trustedOrigins: ["expo://"],
     onAPIError: {
       onError(error, ctx) {
