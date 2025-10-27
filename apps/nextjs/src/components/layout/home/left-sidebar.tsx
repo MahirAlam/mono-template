@@ -11,6 +11,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardTitle } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { useSession } from "~/hooks/useAuth";
+import useHeaderVisibility from "~/hooks/useHeaderVisibility";
 
 // Smoother spring animation for the sidebar entrance
 const sidebarVariants: Variants = {
@@ -33,14 +34,15 @@ const navItems = [
 const LeftSidebar = () => {
   const { user, status } = useSession();
   const pending = status === "pending";
+  const isHidden = useHeaderVisibility();
 
   return (
     <motion.aside
       variants={sidebarVariants}
-      className="sticky hidden flex-col gap-4 md:col-span-2 md:flex lg:col-span-3"
+      className={`sticky hidden flex-col gap-4 transition-all duration-300 md:col-span-2 md:flex lg:col-span-3 ${isHidden ? "top-6" : "top-22"}`}
     >
       {/* Unified Glassmorphism Card */}
-      <Card className="mt-2 flex w-full flex-col gap-4 rounded-lg p-6 backdrop-blur-lg">
+      <Card className="flex w-full flex-col gap-4 rounded-lg p-6 backdrop-blur-lg">
         {/* User Profile Section */}
         <CardTitle className="flex flex-row items-center justify-center gap-3 text-start">
           <UserAvatar

@@ -6,6 +6,7 @@ import { motion } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import useHeaderVisibility from "~/hooks/useHeaderVisibility";
 
 // Smoother spring animation for the sidebar entrance
 const sidebarVariants: Variants = {
@@ -28,7 +29,7 @@ const SuggestedFriend: React.FC<SuggestedFriendProps> = ({
   handle,
   imageSrc,
 }) => (
-  <div className="hover:bg-accent/50 items-center gap-3 rounded-md p-2 transition-colors">
+  <div className="hover:bg-accent/50 flex flex-row items-center gap-3 rounded-md p-2 transition-colors">
     <Avatar>
       <AvatarImage src={imageSrc} />
       <AvatarFallback>{name.charAt(0)}</AvatarFallback>
@@ -56,10 +57,12 @@ const TrendingTopic: React.FC<TrendingTopicProps> = ({ topic, count }) => (
 );
 
 const RightSidebar = () => {
+  const isHidden = useHeaderVisibility();
+
   return (
     <motion.aside
       variants={sidebarVariants}
-      className="sticky hidden flex-col gap-4 lg:col-span-3 lg:flex"
+      className={`sticky hidden flex-col gap-4 transition-all duration-300 lg:col-span-3 lg:flex ${isHidden ? "top-6" : "top-22"}`}
     >
       <div className="flex w-full flex-col gap-6">
         {/* Glassmorphism Cards */}

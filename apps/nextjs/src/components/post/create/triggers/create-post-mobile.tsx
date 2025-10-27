@@ -15,7 +15,7 @@ const CreatePostMobile = () => {
           <UserAvatar user={user} pending={status === "pending"} />
           <button
             onClick={postEditorActions.openForCreate}
-            className="bg-muted/50 text-muted-foreground hover:bg-muted/80 h-10 flex-1 cursor-pointer rounded-full px-4 text-left transition-colors"
+            className="bg-muted/50 text-muted-foreground hover:bg-muted/80 h-10 flex-1 cursor-pointer rounded-full px-4 text-left text-sm transition-colors md:text-base"
           >
             What's on your mind, {user?.name?.split(" ")[0] ?? "User"}?
           </button>

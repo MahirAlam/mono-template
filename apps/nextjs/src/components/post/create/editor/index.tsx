@@ -14,7 +14,6 @@ import {
   ResponsiveModalTitle,
 } from "~/components/ui/responsive-modal";
 import { RichTextEditor } from "~/components/ui/rich-text-editor";
-import { ScrollArea } from "~/components/ui/scroll-area";
 import { Separator } from "~/components/ui/separator";
 import { useSession } from "~/hooks/useAuth";
 import {
@@ -38,8 +37,8 @@ const PostEditorModal = observer(() => {
       open={isModalOpen}
       onOpenChange={(open) => !open && postEditorActions.close()}
     >
-      <ResponsiveModalContent>
-        <ResponsiveModalHeader>
+      <ResponsiveModalContent className="p-0 pt-4 md:py-4">
+        <ResponsiveModalHeader className="px-4 md:px-6">
           <ResponsiveModalTitle>
             {mode === "edit" ? "Edit Post" : "Create Post"}
           </ResponsiveModalTitle>
@@ -48,34 +47,34 @@ const PostEditorModal = observer(() => {
 
         <Separator />
 
-        <ScrollArea className="max-h-[60dvh]">
-          <div className="space-y-4 p-6">
-            <div className="flex items-center gap-3">
-              <UserAvatar pending={isPending} user={user} size={10} />
-              <div className="flex flex-col">
-                <p className="font-semibold">{user.name}</p>
-                <VisibilitySelector />
-              </div>
-            </div>
-
-            <RichTextEditor
-              value={content}
-              onChange={(content) => postEditorStore$.content.set(content)}
-              // getLinkPreview={(url) => checkForLinkPreview(url)}
-              placeholder={`What's on your mind, ${user.name?.split(" ")[0]}?`}
-              // className="min-h-[120px] resize-none border-none p-0 text-lg focus-visible:ring-0"
-            />
-
-            {/* Placeholder for Media Preview Grid */}
-            <div className="text-muted-foreground flex min-h-24 items-center justify-center rounded-lg border border-dashed">
-              Media Preview Area
+        {/* <ScrollArea className="max-h-[60dvh]"> */}
+        <div className="space-y-4 p-6">
+          <div className="flex items-center gap-3">
+            <UserAvatar pending={isPending} user={user} size={10} />
+            <div className="flex flex-col">
+              <p className="font-semibold">{user.name}</p>
+              <VisibilitySelector />
             </div>
           </div>
-        </ScrollArea>
+
+          <RichTextEditor
+            value={content}
+            onChange={(content) => postEditorStore$.content.set(content)}
+            // getLinkPreview={(url) => checkForLinkPreview(url)}
+            placeholder={`What's on your mind, ${user.name?.split(" ")[0]}?`}
+            // className="min-h-[120px] resize-none border-none p-0 text-lg focus-visible:ring-0"
+          />
+
+          {/* Placeholder for Media Preview Grid */}
+          <div className="text-muted-foreground flex min-h-24 items-center justify-center rounded-lg border border-dashed">
+            Media Preview Area
+          </div>
+        </div>
+        {/* </ScrollArea> */}
 
         <Separator />
 
-        <ResponsiveModalFooter className="flex-row items-center justify-between">
+        <ResponsiveModalFooter className="relative my-3 flex-row items-center justify-between px-4 md:px-6">
           <Button variant="outline" className="border-dashed">
             <ImagePlus className="mr-2 h-4 w-4" />
             Add Media
