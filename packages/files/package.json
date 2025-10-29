@@ -1,0 +1,34 @@
+{
+  "name": "@tera/files",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json",
+    "./react": "./src/react.ts",
+    "./expo": "./src/expo.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "devDependencies": {
+    "@tera/eslint-config": "workspace:*",
+    "@tera/prettier-config": "workspace:*",
+    "@tera/tsconfig": "workspace:*",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@tera/prettier-config",
+  "dependencies": {
+    "@uploadthing/expo": "^7.2.6",
+    "@uploadthing/react": "^7.3.3",
+    "uploadthing": "^7.7.4"
+  }
+}

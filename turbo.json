@@ -51,7 +51,9 @@
     "AUTH_DISCORD_SECRET",
     "AUTH_REDIRECT_PROXY_URL",
     "AUTH_SECRET",
-    "PORT"
+    "PORT",
+    "UPLOADTHING_SECRET",
+    "UPLOADTHING_APP_ID"
   ],
   "globalPassThroughEnv": [
     "NODE_ENV",

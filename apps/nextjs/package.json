@@ -39,6 +39,7 @@
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-virtual": "^3.13.12",
     "@tera/api": "workspace:*",
+    "@tera/files": "workspace:*",
     "@tera/auth": "workspace:*",
     "@tera/config": "workspace:*",
     "@tera/db": "workspace:*",

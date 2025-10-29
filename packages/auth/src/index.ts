@@ -1,8 +1,12 @@
 import type { BetterAuthOptions } from "better-auth";
 import { expo } from "@better-auth/expo";
-import { betterAuth } from "better-auth";
+import { APIError, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { oAuthProxy, username } from "better-auth/plugins";
+import {
+  createAuthMiddleware,
+  oAuthProxy,
+  username,
+} from "better-auth/plugins";
 
 import { db } from "@tera/db/client";
 
@@ -27,6 +31,23 @@ export function initAuth(options: {
       }),
       expo(),
     ],
+    hooks: {
+      before: createAuthMiddleware(async (ctx) => {
+        if (ctx.path !== "/sign-up/email") {
+          return;
+        }
+        if (!ctx.body?.email.endsWith("@example.com")) {
+          throw new APIError("BAD_REQUEST", {
+            message: "Email must end with @example.com",
+          });
+        }
+      }),
+    },
+    user: {
+      fields: {
+        name: "fullName",
+      },
+    },
     socialProviders: {
       discord: {
         clientId: options.discordClientId,
