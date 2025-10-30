@@ -1,5 +1,5 @@
 {
-  "name": "@tera/files",
+  "name": "@tera/utils",
   "private": true,
   "type": "module",
   "exports": {
@@ -17,18 +17,22 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
+  "dependencies": {
+    "@uploadthing/expo": "catalog:uploadthing",
+    "@uploadthing/react": "catalog:uploadthing",
+    "@web-std/file": "catalog:",
+    "react": "catalog:react19",
+    "sharp": "catalog:",
+    "uploadthing": "catalog:uploadthing"
+  },
   "devDependencies": {
     "@tera/eslint-config": "workspace:*",
     "@tera/prettier-config": "workspace:*",
     "@tera/tsconfig": "workspace:*",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "typescript": "catalog:"
+    "@types/react": "catalog:react19",
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:typescript"
   },
-  "prettier": "@tera/prettier-config",
-  "dependencies": {
-    "@uploadthing/expo": "^7.2.6",
-    "@uploadthing/react": "^7.3.3",
-    "uploadthing": "^7.7.4"
-  }
+  "prettier": "@tera/prettier-config"
 }

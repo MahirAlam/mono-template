@@ -65,7 +65,7 @@ const StoryCard: React.FC<StoryCardProps> = ({
       {storyImage ? (
         <Image
           src={storyImage}
-          alt={`Story by ${user.name}`}
+          alt={`Story by ${user.fullName}`}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
@@ -86,7 +86,7 @@ const StoryCard: React.FC<StoryCardProps> = ({
             <UserAvatar user={user} pending={false} size={8} />
           </div>
           <p className="absolute bottom-2 left-2 text-sm font-semibold text-white">
-            {user.name}
+            {user.fullName}
           </p>
         </>
       )}
@@ -120,7 +120,7 @@ const Stories = () => {
           <StoryCard user={user} storyImage={user.image ?? ""} isAddStory />
         )}
         {stories.map((story) => (
-          <StoryCard key={story.user.name} {...story} />
+          <StoryCard key={story.user.fullName} {...story} />
         ))}
       </div>
     </motion.div>

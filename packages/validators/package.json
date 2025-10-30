@@ -24,9 +24,9 @@
     "@tera/eslint-config": "workspace:*",
     "@tera/prettier-config": "workspace:*",
     "@tera/tsconfig": "workspace:*",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "typescript": "catalog:"
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:typescript"
   },
   "prettier": "@tera/prettier-config"
 }

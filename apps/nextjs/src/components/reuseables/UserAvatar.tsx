@@ -44,8 +44,8 @@ const UserAvatar = ({
       className={cn(`w-${size} h-${size} rounded-full`, props.className)}
       {...props}
     >
-      {user.image ? <AvatarImage src={user.image} alt={user.name} /> : null}
-      <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
+      {user.image ? <AvatarImage src={user.image} alt={user.fullName} /> : null}
+      <AvatarFallback>{user.fullName.charAt(0).toUpperCase()}</AvatarFallback>
     </Avatar>
   );
 };

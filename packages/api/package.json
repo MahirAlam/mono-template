@@ -4,7 +4,6 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "default": "./src/index.ts"
     }
   },
@@ -21,17 +20,17 @@
     "@tera/auth": "workspace:*",
     "@tera/db": "workspace:*",
     "@tera/validators": "workspace:*",
-    "@trpc/server": "catalog:",
-    "superjson": "2.2.2",
+    "@trpc/server": "catalog:trpc",
+    "superjson": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@tera/eslint-config": "workspace:*",
     "@tera/prettier-config": "workspace:*",
     "@tera/tsconfig": "workspace:*",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "typescript": "catalog:"
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:typescript"
   },
   "prettier": "@tera/prettier-config"
 }

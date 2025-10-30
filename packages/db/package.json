@@ -29,22 +29,22 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@tiptap/react": "catalog:",
-    "drizzle-orm": "^0.44.6",
-    "drizzle-zod": "^0.8.3",
-    "pg": "^8.16.3",
-    "uuid": "^13.0.0",
+    "@tiptap/react": "catalog:tiptap",
+    "drizzle-orm": "catalog:drizzle",
+    "drizzle-zod": "catalog:drizzle",
+    "pg": "catalog:",
+    "uuid": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@tera/eslint-config": "workspace:*",
     "@tera/prettier-config": "workspace:*",
     "@tera/tsconfig": "workspace:*",
-    "@types/pg": "^8.15.5",
-    "drizzle-kit": "^0.31.5",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "typescript": "catalog:"
+    "@types/pg": "catalog:",
+    "drizzle-kit": "catalog:drizzle",
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:typescript"
   },
   "prettier": "@tera/prettier-config"
 }

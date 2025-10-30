@@ -28,21 +28,21 @@
     "android": "expo run:android",
     "ios": "expo run:ios"
   },
-  "pnpm": {
-    "overrides": {
-      "react-native-css": "3.0.1",
-      "metro-runtime": "0.83.3",
-      "lightningcss": "1.30.1"
-    }
-  },
   "devDependencies": {
     "@tera/prettier-config": "workspace:*",
     "@turbo/gen": "^2.5.8",
-    "@types/node": "^22.18.13",
-    "dotenv-cli": "^10.0.0",
-    "prettier": "catalog:",
-    "turbo": "^2.5.8",
-    "typescript": "catalog:"
+    "@types/node": "catalog:",
+    "dotenv-cli": "catalog:",
+    "prettier": "catalog:prettier",
+    "turbo": "catalog:turbo",
+    "typescript": "catalog:typescript"
+  },
+  "pnpm": {
+    "overrides": {
+      "@eslint/core": "^0.17.0",
+      "@eslint/js": "^9.38.0",
+      "eslint": "^9.38.0"
+    }
   },
   "prettier": "@tera/prettier-config"
 }

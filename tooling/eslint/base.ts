@@ -1,5 +1,3 @@
-/// <reference types="./types.d.ts" />
-
 import * as path from "node:path";
 import { includeIgnoreFile } from "@eslint/compat";
 import eslint from "@eslint/js";
@@ -72,14 +70,6 @@ export const baseConfig = defineConfig(
         "error",
         {
           allowConstantLoopConditions: true,
-        },
-      ],
-      "@typescript-eslint/no-redundant-type-constituents": [
-        "error",
-        {
-          types: {
-            JSONContent: "off",
-          },
         },
       ],
       "@typescript-eslint/no-non-null-assertion": "error",

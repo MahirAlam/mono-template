@@ -1,3 +1,7 @@
+// F:\tera-tok\packages\auth\src\index.ts
+
+// Import the crypto module for generating unique filenames
+import { randomUUID } from "crypto";
 import type { BetterAuthOptions } from "better-auth";
 import { expo } from "@better-auth/expo";
 import { APIError, betterAuth } from "better-auth";
@@ -9,6 +13,7 @@ import {
 } from "better-auth/plugins";
 
 import { db } from "@tera/db/client";
+import { uploadImageFromUrl } from "@tera/utils";
 
 export function initAuth(options: {
   baseUrl: string;
@@ -43,6 +48,44 @@ export function initAuth(options: {
         }
       }),
     },
+    databaseHooks: {
+      user: {
+        create: {
+          before: async (userData) => {
+            // 1. Check if an external image URL is present
+            // We'll use "utfs.io" as the domain for UploadThing files.
+            if (userData.image && !userData.image.includes("utfs.io")) {
+              try {
+                console.log(`Processing external avatar: ${userData.image}`);
+
+                // 2. Process and upload the image
+                const uploadedImageData = await uploadImageFromUrl(
+                  userData.image,
+                  { width: 256, height: 256, quality: 80 }, // Optimize for avatars
+                  `avatar_${randomUUID()}.webp`, // Create a unique filename
+                );
+
+                // 3. If successful, update the image URL
+                if (uploadedImageData?.url) {
+                  console.log(
+                    `Avatar uploaded. New URL: ${uploadedImageData.url}`,
+                  );
+                  userData.image = uploadedImageData.url;
+                }
+              } catch (error) {
+                // If image processing fails, we don't want to block user creation.
+                // We log the error and proceed with the original avatar URL.
+                console.error("Failed to process and upload avatar:", error);
+              }
+            }
+
+            // 4. Return the (potentially modified) user data
+            return { data: userData };
+          },
+        },
+      },
+    },
+    // --- END NEW SECTION ---
     user: {
       fields: {
         name: "fullName",

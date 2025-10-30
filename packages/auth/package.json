@@ -17,24 +17,25 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@better-auth/expo": "catalog:",
-    "@t3-oss/env-nextjs": "^0.13.8",
+    "@better-auth/expo": "catalog:better-auth",
+    "@t3-oss/env-nextjs": "catalog:",
     "@tera/db": "workspace:*",
-    "better-auth": "catalog:",
-    "next": "catalog:",
+    "@tera/utils": "workspace:*",
+    "better-auth": "catalog:better-auth",
+    "next": "catalog:next",
     "react": "catalog:react19",
     "react-dom": "catalog:react19",
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@better-auth/cli": "catalog:",
+    "@better-auth/cli": "catalog:better-auth",
     "@tera/eslint-config": "workspace:*",
     "@tera/prettier-config": "workspace:*",
     "@tera/tsconfig": "workspace:*",
     "@types/react": "catalog:react19",
-    "eslint": "catalog:",
-    "prettier": "catalog:",
-    "typescript": "catalog:"
+    "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
+    "typescript": "catalog:typescript"
   },
   "prettier": "@tera/prettier-config"
 }

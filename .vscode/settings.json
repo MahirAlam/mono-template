@@ -18,7 +18,8 @@
     "tabler",
     "tera",
     "tiptap",
-    "uploadthing"
+    "uploadthing",
+    "utapi"
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }

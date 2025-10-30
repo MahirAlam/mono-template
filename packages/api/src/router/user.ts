@@ -27,13 +27,13 @@ export const userRouter = {
         const results = await ctx.db
           .select({
             id: user.id,
-            name: user.name,
+            fullName: user.fullName,
             image: user.image,
           })
           .from(user)
           .where(
             or(
-              ilike(user.name, `%${query.trim()}%`),
+              ilike(user.fullName, `%${query.trim()}%`),
               ilike(user.email, `%${query.trim()}%`),
             ),
           )

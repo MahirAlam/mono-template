@@ -82,8 +82,8 @@ export const SuggestionList = ({
       if (users) {
         const userItems: SuggestionItem[] = users.map((user) => ({
           id: user.id,
-          label: user.name,
-          name: user.name,
+          label: user.fullName,
+          fullName: user.fullName,
           image: user.image,
         }));
         setItems(userItems);

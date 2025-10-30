@@ -52,7 +52,7 @@ const PostEditorModal = observer(() => {
           <div className="flex items-center gap-3">
             <UserAvatar pending={isPending} user={user} size={10} />
             <div className="flex flex-col">
-              <p className="font-semibold">{user.name}</p>
+              <p className="font-semibold">{user.fullName}</p>
               <VisibilitySelector />
             </div>
           </div>
@@ -61,7 +61,7 @@ const PostEditorModal = observer(() => {
             value={content}
             onChange={(content) => postEditorStore$.content.set(content)}
             // getLinkPreview={(url) => checkForLinkPreview(url)}
-            placeholder={`What's on your mind, ${user.name?.split(" ")[0]}?`}
+            placeholder={`What's on your mind, ${user.fullName?.split(" ")[0]}?`}
             // className="min-h-[120px] resize-none border-none p-0 text-lg focus-visible:ring-0"
           />
 

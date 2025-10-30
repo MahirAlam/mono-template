@@ -11,14 +11,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
-    "prettier": "catalog:",
-    "prettier-plugin-tailwindcss": "^0.6.14"
+    "@ianvs/prettier-plugin-sort-imports": "catalog:prettier",
+    "prettier": "catalog:prettier",
+    "prettier-plugin-tailwindcss": "catalog:prettier"
   },
   "devDependencies": {
     "@tera/tsconfig": "workspace:*",
-    "@types/node": "^22.18.12",
-    "typescript": "catalog:"
+    "@types/node": "catalog:",
+    "typescript": "catalog:typescript"
   },
   "prettier": "@tera/prettier-config"
 }
