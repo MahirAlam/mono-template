@@ -12,11 +12,23 @@ const config = {
     "@tera/api",
     "@tera/auth",
     "@tera/db",
+    "@tera/utils",
     "@tera/validators",
   ],
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "oq3ywfdlbc.ufs.sh",
+        pathname: "/f/*",
+      },
+    ],
+  },
+
   /** We already do linting and typechecking as separate tasks in CI */
   typescript: { ignoreBuildErrors: true },
+  serverExternalPackages: ["pg"],
 };
 
 export default config;

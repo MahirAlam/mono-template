@@ -1,6 +1,11 @@
 /* Tiptap Editor Classes */
 .tiptap.ProseMirror {
-  @apply border-input ring-offset-background placeholder:text-muted-foreground w-full rounded-xl rounded-b-none border bg-transparent px-3 py-2 text-sm focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50;
+  @apply border-input ring-offset-background placeholder:text-muted-foreground w-full rounded-b-xl border bg-transparent px-3 py-2 text-sm focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.tiptap.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  @apply text-muted-foreground pointer-events-none float-left h-0;
 }
 
 .tiptap .mention-user {
@@ -62,13 +67,25 @@
   @apply bg-transparent p-0 text-sm;
 }
 
-.tiptap ul,
+/* Lists: explicitly enable markers (Tailwind resets often remove them) */
+.tiptap ul {
+  @apply my-2 list-disc pl-6; /* bullet list */
+}
+
 .tiptap ol {
-  @apply my-2 pl-6;
+  @apply my-2 list-decimal pl-6; /* numbered list */
 }
 
 .tiptap li {
   @apply my-1;
+}
+
+/* Nested lists: increase indent and keep markers visible */
+.tiptap ul ul,
+.tiptap ol ol,
+.tiptap ul ol,
+.tiptap ol ul {
+  @apply mt-2 ml-6;
 }
 
 .tiptap a {
@@ -98,4 +115,139 @@
 
 .prose em {
   @apply italic;
+}
+
+/* Extended editor styles (code, tables, images, embeds, lists, etc.) */
+
+/* Inline code */
+.tiptap code,
+.prose code {
+  @apply bg-muted/80 text-foreground rounded px-1 py-0.5 font-mono text-sm; /* inline code pill */
+}
+
+/* Code block improvements */
+.tiptap pre {
+  @apply bg-muted/90 dark:bg-muted/70 text-foreground border-border my-4 overflow-x-auto rounded-lg border p-4;
+}
+.tiptap pre code {
+  @apply block font-mono text-sm leading-relaxed whitespace-pre; /* block code styling */
+}
+
+/* Common syntax-token helpers (Prism/Highlight classes) */
+.tiptap .token.comment,
+.tiptap .token.prolog,
+.tiptap .token.doctype,
+.tiptap .token.cdata {
+  @apply text-muted-foreground italic;
+}
+.tiptap .token.keyword,
+.tiptap .token.selector,
+.tiptap .token.atrule {
+  @apply text-primary font-semibold;
+}
+.tiptap .token.string,
+.tiptap .token.attr-value {
+  @apply text-success;
+}
+.tiptap .token.function,
+.tiptap .token.class-name {
+  @apply text-accent;
+}
+
+/* Blockquote (strong visual but subtle) */
+.tiptap blockquote {
+  @apply border-border/60 bg-muted/50 text-muted-foreground my-4 rounded-lg border-l-4 p-4 italic;
+}
+.tiptap blockquote p {
+  @apply m-0;
+}
+
+/* Horizontal rule */
+.tiptap hr,
+.prose hr {
+  @apply border-border my-6 border-t;
+}
+
+/* Images and figures */
+.tiptap img {
+  @apply h-auto max-w-full rounded-lg shadow-sm;
+}
+.tiptap figure {
+  @apply my-6;
+}
+.tiptap figcaption {
+  @apply text-muted-foreground mt-2 text-xs;
+}
+
+/* Tables */
+.tiptap table {
+  @apply my-4 w-full table-auto border-collapse text-sm;
+}
+.tiptap thead th {
+  @apply bg-muted/80 text-foreground border-border px-3 py-2 text-left font-semibold;
+}
+.tiptap tbody td {
+  @apply border-border border-t px-3 py-2;
+}
+
+/* Task lists */
+.tiptap input[type="checkbox"] {
+  @apply border-border bg-background mr-2 h-4 w-4 rounded align-middle;
+}
+.tiptap li.task-list-item {
+  @apply flex items-start gap-2;
+}
+
+/* Nested lists spacing */
+.tiptap ul ul,
+.tiptap ol ol,
+.prose ul ul,
+.prose ol ol {
+  @apply mt-2;
+}
+
+/* Embed / iframe responsive wrapper */
+.tiptap .embed {
+  @apply my-4 overflow-hidden rounded-lg;
+}
+.tiptap .embed iframe {
+  width: 100%;
+  height: 36rem; /* sensible default height for embeds */
+  border: 0;
+}
+
+/* Text utilities */
+.tiptap .lead {
+  @apply text-muted-foreground text-lg leading-relaxed;
+}
+.tiptap .kicker {
+  @apply text-muted-foreground text-sm tracking-wider uppercase;
+}
+
+/* Mentions and hashtags (already present, strengthen visuals) */
+.tiptap .mention-user {
+  @apply bg-primary/10 text-primary cursor-pointer rounded px-1 py-0.5 font-medium;
+}
+.tiptap .mention-hashtag {
+  @apply bg-info/10 text-info cursor-pointer rounded px-1 py-0.5 font-mono;
+}
+
+/* Footnotes / small text */
+.tiptap .footnote {
+  @apply text-muted-foreground text-xs;
+}
+
+/* Accessibility: ensure focus outlines for interactive elements inside editor */
+.tiptap a:focus,
+.tiptap button:focus,
+.tiptap [tabindex]:focus {
+  @apply ring-primary/50 rounded-sm ring-2 outline-none;
+}
+
+/* keep editor content from inheriting weird global resets */
+.tiptap,
+.tiptap
+  :where(p, h1, h2, h3, h4, h5, h6, ul, ol, blockquote, pre, table, figure) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

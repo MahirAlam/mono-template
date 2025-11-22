@@ -4,6 +4,7 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./src/index.ts",
       "default": "./src/index.ts"
     }
   },
@@ -19,6 +20,7 @@
   "dependencies": {
     "@tera/auth": "workspace:*",
     "@tera/db": "workspace:*",
+    "@tera/utils": "workspace:^",
     "@tera/validators": "workspace:*",
     "@trpc/server": "catalog:trpc",
     "superjson": "catalog:",

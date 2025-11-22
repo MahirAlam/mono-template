@@ -1,6 +1,8 @@
 import type { FileRouter } from "uploadthing/server";
 import { createUploadthing, UploadThingError } from "uploadthing/server";
 
+import { MAX_MEDIA_ITEMS } from "@tera/config";
+
 import { getSession } from "~/lib/auth/server"; // Import your app-specific session
 
 const f = createUploadthing();
@@ -13,8 +15,8 @@ const ourFileRouter = {
       if (!session?.user?.id) throw new UploadThingError("Unauthorized");
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata }) => {
-      return { uploadedBy: metadata.userId };
+    .onUploadComplete(async ({ metadata, file }) => {
+      return { uploadedBy: metadata.userId, url: file.ufsUrl };
     }),
 
   bannerUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
@@ -23,18 +25,23 @@ const ourFileRouter = {
       if (!session?.user) throw new UploadThingError("Unauthorized");
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata }) => {
-      return { uploadedBy: metadata.userId };
+    .onUploadComplete(async ({ metadata, file }) => {
+      return {
+        uploadedBy: metadata.userId,
+        url: file.ufsUrl,
+      };
     }),
 
-  imageUploader: f({ image: { maxFileSize: "8MB", maxFileCount: 4 } })
+  imageUploader: f({
+    image: { maxFileSize: "8MB", maxFileCount: MAX_MEDIA_ITEMS },
+  })
     .middleware(async () => {
       const session = await getSession();
       if (!session?.user) throw new UploadThingError("Unauthorized");
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata }) => {
-      return { uploadedBy: metadata.userId };
+    .onUploadComplete(async ({ metadata, file }) => {
+      return { uploadedBy: metadata.userId, ufsUrl: file.ufsUrl };
     }),
 
   videoUploader: f({ video: { maxFileSize: "256MB", maxFileCount: 1 } })
@@ -43,8 +50,8 @@ const ourFileRouter = {
       if (!session?.user) throw new UploadThingError("Unauthorized");
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata }) => {
-      return { uploadedBy: metadata.userId };
+    .onUploadComplete(async ({ metadata, file }) => {
+      return { uploadedBy: metadata.userId, url: file.ufsUrl };
     }),
 } satisfies FileRouter;
 

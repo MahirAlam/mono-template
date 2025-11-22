@@ -5,8 +5,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./package.json": "./package.json",
-    "./react": "./src/react.ts",
-    "./expo": "./src/expo.ts"
+    "./types": "./src/types/index.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -18,11 +17,12 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@uploadthing/expo": "catalog:uploadthing",
-    "@uploadthing/react": "catalog:uploadthing",
+    "@tera/db": "workspace:^",
     "@web-std/file": "catalog:",
+    "drizzle-orm": "catalog:",
+    "jimp": "catalog:",
+    "open-graph-scraper": "catalog:",
     "react": "catalog:react19",
-    "sharp": "catalog:",
     "uploadthing": "catalog:uploadthing"
   },
   "devDependencies": {

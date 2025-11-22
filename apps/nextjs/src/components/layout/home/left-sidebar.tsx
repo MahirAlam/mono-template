@@ -1,9 +1,5 @@
-"use client";
-
-import type { Variants } from "motion/react";
 import Link from "next/link";
 import { Bell, Bookmark, Home, Mail, User } from "lucide-react";
-import { motion } from "motion/react";
 
 import CreatePostDesktop from "~/components/post/create/triggers/create-post-desktop";
 import UserAvatar from "~/components/reuseables/UserAvatar";
@@ -11,17 +7,6 @@ import { Button } from "~/components/ui/button";
 import { Card, CardTitle } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { useSession } from "~/hooks/useAuth";
-import useHeaderVisibility from "~/hooks/useHeaderVisibility";
-
-// Smoother spring animation for the sidebar entrance
-const sidebarVariants: Variants = {
-  hidden: { x: -100, opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: { type: "spring", stiffness: 80, damping: 20 },
-  },
-};
 
 const navItems = [
   { icon: Home, label: "Home", href: "/" },
@@ -34,33 +19,31 @@ const navItems = [
 const LeftSidebar = () => {
   const { user, status } = useSession();
   const pending = status === "pending";
-  const isHidden = useHeaderVisibility();
 
   return (
-    <motion.aside
-      variants={sidebarVariants}
-      className={`sticky hidden flex-col gap-4 transition-all duration-300 md:col-span-2 md:flex lg:col-span-3 ${isHidden ? "top-6" : "top-22"}`}
-    >
+    <>
       {/* Unified Glassmorphism Card */}
-      <Card className="flex w-full flex-col gap-4 rounded-lg p-6 backdrop-blur-lg">
+      <Card className="flex w-full flex-col gap-4 rounded-lg px-4 py-6 backdrop-blur-lg">
         {/* User Profile Section */}
-        <CardTitle className="flex flex-row items-center justify-center gap-3 text-start">
+        <CardTitle className="inline-flex w-fit flex-row items-center justify-start gap-3 p-0">
           <UserAvatar
             user={user}
             pending={pending}
-            className="scale-125"
-            size={10}
+            loadingClass="!w-10 scale-115 !h-8"
+            className="scale-115"
           />
           <div className="flex w-full flex-col">
             {pending ? (
-              <div className="bg-muted/50 mx-auto h-5 w-3/4 rounded-md" />
+              <div className="bg-muted/50 mx-auto h-5 w-3/4 rounded-lg" />
             ) : (
               <p className="font-bold">{user?.name}</p>
             )}
             {pending ? (
-              <div className="bg-muted/50 mx-auto mt-2 h-4 w-1/2 rounded-md" />
+              <div className="bg-muted/50 mx-auto mt-2 h-4 w-1/2 rounded-lg" />
             ) : (
-              <p className="text-muted-foreground text-sm">{user?.email}</p>
+              <p className="text-muted-foreground text-sm">
+                {user?.email.split("@")[0]}...
+              </p>
             )}
           </div>
         </CardTitle>
@@ -75,7 +58,7 @@ const LeftSidebar = () => {
             <Button
               key={item.label}
               variant="ghost"
-              className="justify-start gap-3 rounded-md px-3 py-6 text-base"
+              className="justify-start gap-3 rounded-lg px-3 py-6 text-base"
               asChild
             >
               <Link href={item.href}>
@@ -86,7 +69,7 @@ const LeftSidebar = () => {
           ))}
         </nav>
       </Card>
-    </motion.aside>
+    </>
   );
 };
 

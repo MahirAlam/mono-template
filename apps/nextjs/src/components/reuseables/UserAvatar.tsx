@@ -1,9 +1,10 @@
 import type { AvatarProps } from "@radix-ui/react-avatar";
 import type { User } from "better-auth";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { cn } from "~/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Skeleton } from "../ui/skeleton";
 
 interface Props extends AvatarProps {
@@ -34,18 +35,19 @@ const UserAvatar = ({
   }
 
   if (!user) {
-    router.replace("/auth/sign-in");
-
     return null;
   }
 
   return (
     <Avatar
-      className={cn(`w-${size} h-${size} rounded-full`, props.className)}
+      className={cn(
+        `w-${size} h-${size} avatar-hover rounded-full`,
+        props.className,
+      )}
       {...props}
     >
-      {user.image ? <AvatarImage src={user.image} alt={user.fullName} /> : null}
-      <AvatarFallback>{user.fullName.charAt(0).toUpperCase()}</AvatarFallback>
+      {user.image ? <Image fill src={user.image} alt={user.name} /> : null}
+      <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
     </Avatar>
   );
 };

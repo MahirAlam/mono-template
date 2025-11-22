@@ -32,7 +32,7 @@
     "@tiptap/react": "catalog:tiptap",
     "drizzle-orm": "catalog:drizzle",
     "drizzle-zod": "catalog:drizzle",
-    "pg": "catalog:",
+    "pg": "^8.16.3",
     "uuid": "catalog:",
     "zod": "catalog:"
   },
@@ -40,7 +40,7 @@
     "@tera/eslint-config": "workspace:*",
     "@tera/prettier-config": "workspace:*",
     "@tera/tsconfig": "workspace:*",
-    "@types/pg": "catalog:",
+    "@types/pg": "^8.15.6",
     "drizzle-kit": "catalog:drizzle",
     "eslint": "catalog:eslint",
     "prettier": "catalog:prettier",

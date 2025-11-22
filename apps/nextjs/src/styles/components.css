@@ -1,8 +1,5 @@
 /* Component System - Project Phoenix */
-
 @layer components {
-  /* Card System - Removed unused classes, using CVA variants instead */
-
   /* Interactive Elements */
   .interactive-hover {
     @apply transition-all duration-200 hover:scale-[1.02] hover:shadow-md;

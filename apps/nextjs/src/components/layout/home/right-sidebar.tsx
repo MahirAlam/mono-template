@@ -1,69 +1,13 @@
-"use client";
-
-import type { Variants } from "motion/react";
-import { motion } from "motion/react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import useHeaderVisibility from "~/hooks/useHeaderVisibility";
-
-// Smoother spring animation for the sidebar entrance
-const sidebarVariants: Variants = {
-  hidden: { x: 100, opacity: 0 },
-  visible: {
-    x: 0,
-    opacity: 1,
-    transition: { type: "spring", stiffness: 80, damping: 20 },
-  },
-};
-
-interface SuggestedFriendProps {
-  name: string;
-  handle: string;
-  imageSrc: string;
-}
-
-const SuggestedFriend: React.FC<SuggestedFriendProps> = ({
-  name,
-  handle,
-  imageSrc,
-}) => (
-  <div className="hover:bg-accent/50 flex flex-row items-center gap-3 rounded-md p-2 transition-colors">
-    <Avatar>
-      <AvatarImage src={imageSrc} />
-      <AvatarFallback>{name.charAt(0)}</AvatarFallback>
-    </Avatar>
-    <div className="flex-1">
-      <p className="font-semibold">{name}</p>
-      <p className="text-muted-foreground text-sm">{handle}</p>
-    </div>
-    <Button variant="secondary" size="sm">
-      Follow
-    </Button>
-  </div>
-);
-
-interface TrendingTopicProps {
-  topic: string;
-  count: string;
-}
-
-const TrendingTopic: React.FC<TrendingTopicProps> = ({ topic, count }) => (
-  <div className="hover:bg-accent/50 rounded-md p-2 transition-colors">
-    <p className="font-semibold">{topic}</p>
-    <p className="text-muted-foreground text-sm">{count} posts</p>
-  </div>
-);
 
 const RightSidebar = () => {
   const isHidden = useHeaderVisibility();
 
   return (
-    <motion.aside
-      variants={sidebarVariants}
-      className={`sticky hidden flex-col gap-4 transition-all duration-300 lg:col-span-3 lg:flex ${isHidden ? "top-6" : "top-22"}`}
-    >
+    <>
       <div className="flex w-full flex-col gap-6">
         {/* Glassmorphism Cards */}
         <Card className="bg-card/50 backdrop-blur-lg">
@@ -95,8 +39,56 @@ const RightSidebar = () => {
           </CardContent>
         </Card>
       </div>
-    </motion.aside>
+    </>
   );
 };
+
+const AvatarImage = ({ src, name }: { src: string; name: string }) => (
+  <img
+    src={src}
+    alt={`Avatar of ${name}`}
+    width={40}
+    height={40}
+    className="object-cover"
+  />
+);
+
+interface SuggestedFriendProps {
+  name: string;
+  handle: string;
+  imageSrc: string;
+}
+
+const SuggestedFriend: React.FC<SuggestedFriendProps> = ({
+  name,
+  handle,
+  imageSrc,
+}) => (
+  <div className="hover:bg-accent/50 flex flex-row items-center gap-3 rounded-lg p-2 transition-colors">
+    <Avatar>
+      <AvatarImage src={imageSrc} name={name} />
+      <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+    </Avatar>
+    <div className="flex-1">
+      <p className="font-semibold">{name}</p>
+      <p className="text-muted-foreground text-sm">{handle}</p>
+    </div>
+    <Button variant="secondary" size="sm">
+      Follow
+    </Button>
+  </div>
+);
+
+interface TrendingTopicProps {
+  topic: string;
+  count: string;
+}
+
+const TrendingTopic: React.FC<TrendingTopicProps> = ({ topic, count }) => (
+  <div className="hover:bg-accent/50 rounded-lg p-2 transition-colors">
+    <p className="font-semibold">{topic}</p>
+    <p className="text-muted-foreground text-sm">{count} posts</p>
+  </div>
+);
 
 export default RightSidebar;

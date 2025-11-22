@@ -2,10 +2,11 @@
 
 import type { JSONContent } from "@tiptap/react";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
-import { index, pgTable, primaryKey, uniqueIndex } from "drizzle-orm/pg-core";
+import { index, primaryKey, uniqueIndex } from "drizzle-orm/pg-core";
 import { v4 as uuid } from "uuid";
 
-import { user } from "./user";
+import { createTable } from "./createTable";
+import { userTable } from "./users";
 
 /**
  * SCALABLE: Post Visibility Table
@@ -13,14 +14,14 @@ import { user } from "./user";
  * (e.g., "Friends except...", "Custom List") without changing your DB schema.
  * You can also add descriptions that can be shown in the UI.
  */
-export const postVisibility = pgTable("post_visibility", (t) => ({
+export const postVisibilityTable = createTable("post_visibility", (t) => ({
   id: t
     .text("id")
     .primaryKey()
     .$defaultFn(() => uuid()),
   name: t.text("name").notNull().unique(), // e.g., 'public', 'friends', 'private'
   description: t.text("description"), // e.g., 'Visible to everyone on and off the platform'
-  filter: t.text("filter").notNull(),
+  filter: t.text("filter").array().notNull(), // e.g., ['friends', 'close_friends']
 }));
 
 /**
@@ -29,14 +30,15 @@ export const postVisibility = pgTable("post_visibility", (t) => ({
  * You can store different metadata for each reaction, like the name for accessibility
  * and a code/URL for the image/animation to display.
  */
-export const reaction = pgTable(
+export const reactionTable = createTable(
   "reaction",
   (t) => ({
     id: t
       .text("id")
       .primaryKey()
       .$defaultFn(() => uuid()),
-    name: t.text("name").notNull(),
+    name: t.text("name").notNull(), // e.g., 'Like', 'Celebrate', 'Funny'
+    // This could be an emoji, an image URL, or a code for your frontend
     displayCode: t.text("display_code").notNull().unique(),
   }),
   (t) => [uniqueIndex("reaction_name_idx").on(t.name)],
@@ -46,14 +48,14 @@ export const reaction = pgTable(
  * Hashtags Table
  * Stores a central, unique list of all hashtags used.
  */
-export const hashtag = pgTable(
+export const hashtagTable = createTable(
   "hashtag",
   (t) => ({
     id: t
       .text("id")
       .primaryKey()
       .$defaultFn(() => uuid()),
-    tag: t.text("tag").notNull().unique(),
+    tag: t.text("tag").notNull().unique(), // e.g., 'drizzleorm', 'webdev'
     usageCount: t.integer("usage_count").notNull().default(0),
     createdAt: t.timestamp("created_at").notNull().defaultNow(),
     updatedAt: t.timestamp("updated_at").notNull().defaultNow(),
@@ -65,7 +67,8 @@ export const hashtag = pgTable(
 );
 
 // ---- Core Post System ----
-export const post = pgTable(
+
+export const postTable = createTable(
   "post",
   (t) => ({
     id: t
@@ -76,15 +79,16 @@ export const post = pgTable(
     authorId: t
       .text("author_id")
       .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
+      .references(() => userTable.id, { onDelete: "cascade" }),
     // Foreign key to the new visibility table
     visibilityId: t
       .text("visibility_id")
       .notNull()
-      .references(() => postVisibility.id, { onDelete: "restrict" }),
+      .references(() => postVisibilityTable.id, { onDelete: "restrict" }),
+    visibilityRule: t.text("visibility_rule").array().notNull(), // e.g., ['friends', 'close_friends']
     sharedPostId: t
       .text("shared_postId")
-      .references((): AnyPgColumn => post.id, { onDelete: "cascade" }),
+      .references((): AnyPgColumn => postTable.id, { onDelete: "cascade" }),
     createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
     updatedAt: t.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
   }),
@@ -98,17 +102,17 @@ export const post = pgTable(
 /**
  * Join Table for Posts and Hashtags (Many-to-Many)
  */
-export const postHashtag = pgTable(
+export const postHashtagTable = createTable(
   "post_hashtag",
   (t) => ({
     postId: t
       .text("postId")
       .notNull()
-      .references(() => post.id, { onDelete: "cascade" }),
+      .references(() => postTable.id, { onDelete: "cascade" }),
     hashtagId: t
       .text("hashtag_id")
       .notNull()
-      .references(() => hashtag.id, { onDelete: "cascade" }),
+      .references(() => hashtagTable.id, { onDelete: "cascade" }),
   }),
   (t) => [
     primaryKey({ columns: [t.postId, t.hashtagId] }),
@@ -120,23 +124,22 @@ export const postHashtag = pgTable(
 /**
  * Reactions on Posts
  */
-export const postReaction = pgTable(
+export const postReactionTable = createTable(
   "post_reaction",
   (t) => ({
     userId: t
       .text("user_id")
       .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
+      .references(() => userTable.id, { onDelete: "cascade" }),
     postId: t
       .text("postId")
       .notNull()
-      .references(() => post.id, { onDelete: "cascade" }),
+      .references(() => postTable.id, { onDelete: "cascade" }),
     // Foreign key to the new reaction table
     reactionId: t
       .text("reaction_id")
       .notNull()
-      .references(() => reaction.id, { onDelete: "cascade" }),
-    createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
+      .references(() => reactionTable.id, { onDelete: "cascade" }),
   }),
   (t) => [
     primaryKey({ columns: [t.userId, t.postId] }),
@@ -144,17 +147,17 @@ export const postReaction = pgTable(
   ],
 );
 
-export const postUserTag = pgTable(
+export const postUserTagTable = createTable(
   "post_user_tag",
   (t) => ({
     postId: t
       .text("postId")
       .notNull()
-      .references(() => post.id, { onDelete: "cascade" }),
+      .references(() => postTable.id, { onDelete: "cascade" }),
     userId: t
       .text("user_id")
       .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
+      .references(() => userTable.id, { onDelete: "cascade" }),
   }),
   (t) => [
     primaryKey({ columns: [t.postId, t.userId] }),
@@ -165,7 +168,7 @@ export const postUserTag = pgTable(
 /**
  * Stores media items (images, videos) associated with a post.
  */
-export const postMedia = pgTable(
+export const postMediaTable = createTable(
   "post_media",
   (t) => ({
     id: t
@@ -175,7 +178,7 @@ export const postMedia = pgTable(
     postId: t
       .text("postId")
       .notNull()
-      .references(() => post.id, { onDelete: "cascade" }),
+      .references(() => postTable.id, { onDelete: "cascade" }),
     url: t.text("url").notNull(),
     type: t.text("type").notNull(), // 'image' or 'video'
     altText: t.text("alt_text"),
@@ -187,7 +190,7 @@ export const postMedia = pgTable(
 /**
  * Stores scraped metadata for URLs shared in posts.
  */
-export const linkPreview = pgTable("link_preview", (t) => ({
+export const linkPreviewTable = createTable("link_preview", (t) => ({
   id: t
     .text("id")
     .primaryKey()
@@ -195,7 +198,7 @@ export const linkPreview = pgTable("link_preview", (t) => ({
   postId: t
     .text("postId")
     .notNull()
-    .references(() => post.id, { onDelete: "cascade" })
+    .references(() => postTable.id, { onDelete: "cascade" })
     .unique(),
   url: t.text("url").notNull(),
   title: t.text("title"),
@@ -211,25 +214,25 @@ export const linkPreview = pgTable("link_preview", (t) => ({
 /**
  * Comments on posts, with support for threaded replies.
  */
-export const comment = pgTable(
+export const commentTable = createTable(
   "comment",
   (t) => ({
     id: t
       .text("id")
       .primaryKey()
       .$defaultFn(() => uuid()),
-    content: t.jsonb("content").$type<JSONContent>(),
+    content: t.text("content").notNull(),
     authorId: t
       .text("author_id")
       .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
+      .references(() => userTable.id, { onDelete: "cascade" }),
     postId: t
       .text("postId")
       .notNull()
-      .references(() => post.id, { onDelete: "cascade" }),
+      .references(() => postTable.id, { onDelete: "cascade" }),
     parentId: t
       .text("parent_id")
-      .references((): AnyPgColumn => comment.id, { onDelete: "cascade" }),
+      .references((): AnyPgColumn => commentTable.id, { onDelete: "cascade" }),
     createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
     updatedAt: t.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
   }),
@@ -240,22 +243,21 @@ export const comment = pgTable(
   ],
 );
 
-export const commentReaction = pgTable(
+export const commentReactionTable = createTable(
   "comment_reaction",
   (t) => ({
     userId: t
       .text("user_id")
       .notNull()
-      .references(() => user.id, { onDelete: "cascade" }),
+      .references(() => userTable.id, { onDelete: "cascade" }),
     commentId: t
       .text("comment_id")
       .notNull()
-      .references(() => comment.id, { onDelete: "cascade" }),
+      .references(() => commentTable.id, { onDelete: "cascade" }),
     reactionId: t
       .text("reaction_id")
       .notNull()
-      .references(() => reaction.id, { onDelete: "cascade" }),
-    createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
+      .references(() => reactionTable.id, { onDelete: "cascade" }),
   }),
   (t) => [
     primaryKey({ columns: [t.userId, t.commentId] }),

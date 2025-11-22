@@ -2,9 +2,9 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "expo",
-  slug: "expo",
-  scheme: "expo",
+  name: "TeraTok",
+  slug: "tera-tok",
+  scheme: "tera-tok",
   version: "0.1.0",
   orientation: "portrait",
   icon: "./assets/icon-light.png",
@@ -14,9 +14,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   newArchEnabled: true,
   assetBundlePatterns: ["**/*"],
-  web: {
-    bundler: "metro",
-  },
   ios: {
     bundleIdentifier: "your.bundle.identifier",
     supportsTablet: true,

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
 
 import AppLogo from "~/components/Logo";
 import useHeaderVisibility from "~/hooks/useHeaderVisibility";
@@ -15,12 +14,10 @@ const Header = () => {
 
   return (
     <>
-      <motion.header
-        animate={{ y: isHidden ? "-100%" : "0%" }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="bg-background/80 sticky top-0 z-50 w-full border-b shadow-md backdrop-blur-sm"
+      <header
+        className={`bg-background/80 border-border/20 sticky top-0 z-50 w-full border-b shadow-md backdrop-blur-sm transition-transform duration-300 ease-in-out ${isHidden ? "-translate-y-24" : ""}`}
       >
-        <div className="container flex h-16">
+        <div className="container-lg flex h-16 px-4! md:px-6! lg:px-8!">
           {/* Left Side: Logo */}
           <div className="mr-4 flex">
             <Link href="/" className="flex items-center space-x-2">
@@ -39,7 +36,7 @@ const Header = () => {
             <UserDropdown />
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* We pass the `isHidden` state down to the MobileNav as a prop */}
       <MobileNav isHidden={isHidden} />

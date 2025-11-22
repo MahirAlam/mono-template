@@ -1,9 +1,10 @@
-export * from "./schema-files/user";
-export * from "./schema-files/post";
-// export * from "./schema-files/friendships";
-// export * from "./schema-files/interactions";
-// export * from "./schema-files/stories";
-// export * from "./schema-files/messaging";
-// export * from "./schema-files/notifications";
+export * from "./schema-files/affinity";
+export * from "./schema-files/createTable";
+export * from "./schema-files/friendships";
+export * from "./schema-files/interactions";
+export * from "./schema-files/posts";
+export * from "./schema-files/profile";
+export * from "./schema-files/relations";
+export * from "./schema-files/users";
 
 export * from "./schema-files/relations";

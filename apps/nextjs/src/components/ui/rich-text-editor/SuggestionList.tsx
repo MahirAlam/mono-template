@@ -1,7 +1,8 @@
 // components/ui/rich-text-editor/SuggestionList.tsx
 "use client";
 
-import React, { useEffect, useImperativeHandle, useState } from "react";
+import type React from "react";
+import { useEffect, useImperativeHandle, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { MAX_CHARS_FOR_SEARCHING } from "@tera/config";
@@ -10,22 +11,22 @@ import { LoadingIndicator } from "~/components/LoadingIndicator";
 import UserAvatar from "~/components/reuseables/UserAvatar";
 import { useTRPC } from "~/trpc/react";
 
-export type SuggestionItem = {
+export interface SuggestionItem {
   id: string;
   label: string;
   name?: string;
   image?: string | null;
   usageCount?: number;
   isNew?: boolean;
-};
-export type SuggestionListProps = {
+}
+export interface SuggestionListProps {
   command: (item: SuggestionItem) => void;
   query: string;
   suggestionType: "user" | "hashtag";
-};
-export type SuggestionListRef = {
+}
+export interface SuggestionListRef {
   onKeyDown: ({ event }: { event: React.KeyboardEvent }) => boolean;
-};
+}
 
 export const SuggestionList = ({
   ref,
@@ -78,19 +79,19 @@ export const SuggestionList = ({
   // Update items based on fetched data
   useEffect(() => {
     if (props.suggestionType === "user") {
-      setIsLoading(usersLoading);
+      setIsLoading(() => usersLoading);
       if (users) {
         const userItems: SuggestionItem[] = users.map((user) => ({
           id: user.id,
-          label: user.fullName,
-          fullName: user.fullName,
+          label: user.name,
+          name: user.name,
           image: user.image,
         }));
         setItems(userItems);
       } else if (!usersLoading) {
         setItems([]);
       }
-    } else if (props.suggestionType === "hashtag") {
+    } else {
       setIsLoading(hashtagsLoading);
       const suggestions: SuggestionItem[] = [];
 
@@ -194,7 +195,7 @@ export const SuggestionList = ({
       {items.map((item, index) => (
         <button
           type="button"
-          className={`flex w-full items-center gap-2 rounded-md p-2 text-left text-sm ${index === selectedIndex ? "bg-accent text-accent-foreground" : ""}`}
+          className={`flex w-full items-center gap-2 rounded-lg p-2 text-left text-sm ${index === selectedIndex ? "bg-accent text-accent-foreground" : ""}`}
           key={item.id}
           onClick={() => {
             const item = items[index];
@@ -208,7 +209,7 @@ export const SuggestionList = ({
               size={8}
               pending={false}
               user={{
-                name: item.name || item.label,
+                name: item.name ?? item.label,
                 image: item.image,
               }}
             />

@@ -12,10 +12,10 @@ export default async function MainLayout(props: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col">
+    <>
       <Header />
-      <main className="flex-1 md:pb-0">{props.children}</main>
+      <main className="container-xl mx-auto pb-0">{props.children}</main>
       <PostEditorModal />
-    </div>
+    </>
   );
 }

@@ -47,7 +47,7 @@ const MobileNav = ({ isHidden }: { isHidden: boolean }) => {
       animate={{ y: isHidden ? "100%" : "0%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       // The nav container must be relative for the absolute underline
-      className="bg-background/80 shadow-md-t fixed right-2 bottom-0 left-2 z-40 flex h-16 items-center justify-around border-t backdrop-blur-sm md:hidden"
+      className="bg-background/80 shadow-md-t fixed inset-0 top-auto z-40 flex h-16 items-center justify-around border-t backdrop-blur-sm md:hidden"
     >
       {/* ⚡ NEW: Conditional Rendering for the Reloading Indicator */}
       {isReloading ? (

@@ -2,19 +2,31 @@
 
 import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
-
 import StarterKit from "@tiptap/starter-kit";
+
 import { hashtagSuggestion, userSuggestion } from "./suggestion";
 
+/**
+ * Social-media-focused Tiptap extensions
+ * - Headings are disabled (not typical for short social posts)
+ * - Keep inline code, code blocks, blockquote, lists, link, underline, bold, italic, strike
+ * - Add dropcursor/gapcursor for improved editing UX
+ */
 export const getRichTextEditorExtensions = (
-  placeholder: string = "What's on your mind?",
+  placeholder = "What's on your mind?",
   getLinkPreview?: (url: string) => void,
 ) => [
   StarterKit.configure({
+    // disable headings for social posts; keep code, lists, blockquote, etc.
     heading: false,
-    blockquote: false,
+    horizontalRule: false,
     code: false,
-    codeBlock: false,
+    hardBreak: false,
+    dropcursor: false,
+    gapcursor: false,
+    listKeymap: false,
+    // keep codeBlock, blockquote, lists, hardBreak etc in defaults
+    // marks (bold/italic/strike/code/link/underline) remain enabled
     link: {
       autolink: true,
       linkOnPaste: true,
@@ -23,47 +35,29 @@ export const getRichTextEditorExtensions = (
       protocols: ["http", "https"],
       isAllowedUri: (url, ctx) => {
         try {
-          // construct URL
           const parsedUrl = url.includes(":")
             ? new URL(url)
             : new URL(`${ctx.defaultProtocol}://${url}`);
 
-          // use default validation
-          if (!ctx.defaultValidate(parsedUrl.href)) {
-            return false;
-          }
+          if (!ctx.defaultValidate(parsedUrl.href)) return false;
 
-          // disallowed protocols
           const disallowedProtocols = ["ftp", "file", "mailto"];
           const protocol = parsedUrl.protocol.replace(":", "");
+          if (disallowedProtocols.includes(protocol)) return false;
 
-          if (disallowedProtocols.includes(protocol)) {
-            return false;
-          }
-
-          // only allow protocols specified in ctx.protocols
           const allowedProtocols = ctx.protocols.map((p) =>
             typeof p === "string" ? p : p.scheme,
           );
+          if (!allowedProtocols.includes(protocol)) return false;
 
-          if (!allowedProtocols.includes(protocol)) {
-            return false;
-          }
-
-          // disallowed domains
           const disallowedDomains = [
             "example-phishing.com",
             "malicious-site.net",
           ];
           const domain = parsedUrl.hostname;
+          if (disallowedDomains.includes(domain)) return false;
 
-          if (disallowedDomains.includes(domain)) {
-            return false;
-          }
-
-          getLinkPreview && getLinkPreview(parsedUrl.href);
-
-          // all checks have passed
+          getLinkPreview?.(parsedUrl.href);
           return true;
         } catch {
           return false;
@@ -71,18 +65,14 @@ export const getRichTextEditorExtensions = (
       },
       shouldAutoLink: (url) => {
         try {
-          // construct URL
           const parsedUrl = url.includes(":")
             ? new URL(url)
             : new URL(`https://${url}`);
-
-          // only auto-link if the domain is not in the disallowed list
           const disallowedDomains = [
             "example-no-autolink.com",
             "another-no-autolink.com",
           ];
           const domain = parsedUrl.hostname;
-
           return !disallowedDomains.includes(domain);
         } catch {
           return false;
@@ -90,9 +80,12 @@ export const getRichTextEditorExtensions = (
       },
     },
   }),
+
   Placeholder.configure({
     placeholder: placeholder || "What's on your mind?",
   }),
+
+  // mention for users
   Mention.configure({
     HTMLAttributes: {
       class: "mention-user",
@@ -103,9 +96,9 @@ export const getRichTextEditorExtensions = (
     },
     suggestion: userSuggestion,
   }),
-  Mention.extend({
-    name: "hashtagMention",
-  }).configure({
+
+  // hashtag mentions (prefixed with #)
+  Mention.extend({ name: "hashtagMention" }).configure({
     HTMLAttributes: {
       class: "mention-hashtag",
       "data-type": "hashtag",

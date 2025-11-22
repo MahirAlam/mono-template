@@ -1,7 +1,7 @@
 {
   "extends": "@tera/tsconfig/compiled-package.json",
   "compilerOptions": {
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "include": ["*.ts", "*.tsx", "src"],
   "exclude": ["node_modules"]

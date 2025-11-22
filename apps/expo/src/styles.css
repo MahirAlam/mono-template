@@ -1,8 +1,0 @@
-@import "tailwindcss";
-@import "nativewind/theme";
-@import "@tera/tailwind-config/theme";
-
-@source "./ui/*.{ts,tsx}";
-
-@variant dark (&:is(.dark *));
-@variant dark (@media (prefers-color-scheme: dark));

@@ -2,121 +2,211 @@
 
 import { relations } from "drizzle-orm";
 
+import { closeFriendshipTable, friendshipTable } from "./friendships";
 import {
-  comment,
-  commentReaction,
-  hashtag,
-  linkPreview,
-  post,
-  postHashtag,
-  postMedia,
-  postReaction,
-  postUserTag,
-  postVisibility,
-  reaction,
-} from "./post";
-import { account, session, user } from "./user";
+  commentReactionTable,
+  commentTable,
+  hashtagTable,
+  linkPreviewTable,
+  postHashtagTable,
+  postMediaTable,
+  postReactionTable,
+  postTable,
+  postUserTagTable,
+  postVisibilityTable,
+  reactionTable,
+} from "./posts";
+import { profileTable, userProfileLinkTable } from "./profile";
+import { accountTable, sessionTable, userTable } from "./users";
 
 // ---- User Relations ----
-
-export const userRelations = relations(user, ({ one, many }) => ({
-  sessions: many(session),
-  accounts: many(account),
-  posts: many(post),
-  comments: many(comment),
-  postReactions: many(postReaction),
-  commentReactions: many(commentReaction),
-  taggedInPosts: many(postUserTag),
-}));
-
-export const sessionRelations = relations(session, ({ one }) => ({
-  user: one(user, { fields: [session.userId], references: [user.id] }),
-}));
-
-export const accountRelations = relations(account, ({ one }) => ({
-  user: one(user, { fields: [account.userId], references: [user.id] }),
-}));
-
-// ---- Post Relations ----
-
-export const postRelations = relations(post, ({ one, many }) => ({
-  author: one(user, { fields: [post.authorId], references: [user.id] }),
-  visibility: one(postVisibility, {
-    fields: [post.visibilityId],
-    references: [postVisibility.id],
+export const userRelations = relations(userTable, ({ one, many }) => ({
+  sessions: many(sessionTable),
+  accounts: many(accountTable),
+  posts: many(postTable),
+  comments: many(commentTable),
+  postReactions: many(postReactionTable),
+  commentReactions: many(commentReactionTable),
+  taggedInPosts: many(postUserTagTable),
+  profile: one(profileTable, {
+    fields: [userTable.id],
+    references: [profileTable.userId],
   }),
-  comments: many(comment),
-  reactions: many(postReaction),
-  media: many(postMedia),
-  taggedUsers: many(postUserTag),
-  linkPreview: one(linkPreview),
-  hashtags: many(postHashtag),
-  originalPost: one(post, {
-    fields: [post.sharedPostId],
-    references: [post.id],
-    relationName: "originalPost",
-  }),
-  shares: many(post, { relationName: "originalPost" }),
+  links: many(userProfileLinkTable),
 }));
 
-export const postReactionRelations = relations(postReaction, ({ one }) => ({
-  user: one(user, { fields: [postReaction.userId], references: [user.id] }),
-  post: one(post, { fields: [postReaction.postId], references: [post.id] }),
-  reaction: one(reaction, {
-    fields: [postReaction.reactionId],
-    references: [reaction.id],
+export const sessionRelations = relations(sessionTable, ({ one }) => ({
+  user: one(userTable, {
+    fields: [sessionTable.userId],
+    references: [userTable.id],
   }),
 }));
 
-export const commentReactionRelations = relations(
-  commentReaction,
+export const accountRelations = relations(accountTable, ({ one }) => ({
+  user: one(userTable, {
+    fields: [accountTable.userId],
+    references: [userTable.id],
+  }),
+}));
+
+export const friendshipRelations = relations(friendshipTable, ({ one }) => ({
+  userOne: one(userTable, {
+    fields: [friendshipTable.userId],
+    references: [userTable.id],
+    relationName: "user_id",
+  }),
+  userTwo: one(userTable, {
+    fields: [friendshipTable.friendId],
+    references: [userTable.id],
+    relationName: "friend_id",
+  }),
+}));
+
+export const closeFriendshipRelations = relations(
+  closeFriendshipTable,
   ({ one }) => ({
-    user: one(user, {
-      fields: [commentReaction.userId],
-      references: [user.id],
+    userOne: one(userTable, {
+      fields: [closeFriendshipTable.userId],
+      references: [userTable.id],
+      relationName: "user_id",
     }),
-    comment: one(comment, {
-      fields: [commentReaction.commentId],
-      references: [comment.id],
-    }),
-    reaction: one(reaction, {
-      fields: [commentReaction.reactionId],
-      references: [reaction.id],
+    userTwo: one(userTable, {
+      fields: [closeFriendshipTable.friendId],
+      references: [userTable.id],
+      relationName: "friend_id",
     }),
   }),
 );
 
-export const commentRelations = relations(comment, ({ one, many }) => ({
-  author: one(user, { fields: [comment.authorId], references: [user.id] }),
-  post: one(post, { fields: [comment.postId], references: [post.id] }),
-  reactions: many(commentReaction),
-  parent: one(comment, {
-    fields: [comment.parentId],
-    references: [comment.id],
+export const profileRelations = relations(profileTable, ({ one }) => ({
+  user: one(userTable, {
+    fields: [profileTable.userId],
+    references: [userTable.id],
+  }),
+}));
+
+export const userProfileLinkRelations = relations(
+  userProfileLinkTable,
+  ({ one }) => ({
+    user: one(userTable, {
+      fields: [userProfileLinkTable.userId],
+      references: [userTable.id],
+    }),
+  }),
+);
+
+// ---- Post Relations ----
+export const postRelations = relations(postTable, ({ one, many }) => ({
+  author: one(userTable, {
+    fields: [postTable.authorId],
+    references: [userTable.id],
+  }),
+  visibility: one(postVisibilityTable, {
+    fields: [postTable.visibilityId],
+    references: [postVisibilityTable.id],
+  }),
+  comments: many(commentTable),
+  reactions: many(postReactionTable),
+  media: many(postMediaTable),
+  taggedUsers: many(postUserTagTable),
+  linkPreview: one(linkPreviewTable),
+  hashtags: many(postHashtagTable),
+  originalPost: one(postTable, {
+    fields: [postTable.sharedPostId],
+    references: [postTable.id],
+    relationName: "originalPost",
+  }),
+  shares: many(postTable, { relationName: "originalPost" }),
+}));
+
+export const postReactionRelations = relations(
+  postReactionTable,
+  ({ one }) => ({
+    user: one(userTable, {
+      fields: [postReactionTable.userId],
+      references: [userTable.id],
+    }),
+    post: one(postTable, {
+      fields: [postReactionTable.postId],
+      references: [postTable.id],
+    }),
+    reaction: one(reactionTable, {
+      fields: [postReactionTable.reactionId],
+      references: [reactionTable.id],
+    }),
+  }),
+);
+
+export const commentReactionRelations = relations(
+  commentReactionTable,
+  ({ one }) => ({
+    user: one(userTable, {
+      fields: [commentReactionTable.userId],
+      references: [userTable.id],
+    }),
+    comment: one(commentTable, {
+      fields: [commentReactionTable.commentId],
+      references: [commentTable.id],
+    }),
+    reaction: one(reactionTable, {
+      fields: [commentReactionTable.reactionId],
+      references: [reactionTable.id],
+    }),
+  }),
+);
+
+export const commentRelations = relations(commentTable, ({ one, many }) => ({
+  author: one(userTable, {
+    fields: [commentTable.authorId],
+    references: [userTable.id],
+  }),
+  post: one(postTable, {
+    fields: [commentTable.postId],
+    references: [postTable.id],
+  }),
+  reactions: many(commentReactionTable),
+  parent: one(commentTable, {
+    fields: [commentTable.parentId],
+    references: [commentTable.id],
     relationName: "replies",
   }),
-  replies: many(comment, {
+  replies: many(commentTable, {
     relationName: "replies",
   }),
 }));
 
-export const postHashtagRelations = relations(postHashtag, ({ one }) => ({
-  post: one(post, { fields: [postHashtag.postId], references: [post.id] }),
-  hashtag: one(hashtag, {
-    fields: [postHashtag.hashtagId],
-    references: [hashtag.id],
+export const postHashtagRelations = relations(postHashtagTable, ({ one }) => ({
+  post: one(postTable, {
+    fields: [postHashtagTable.postId],
+    references: [postTable.id],
+  }),
+  hashtag: one(hashtagTable, {
+    fields: [postHashtagTable.hashtagId],
+    references: [hashtagTable.id],
   }),
 }));
 
-export const postMediaRelations = relations(postMedia, ({ one }) => ({
-  post: one(post, { fields: [postMedia.postId], references: [post.id] }),
+export const postMediaRelations = relations(postMediaTable, ({ one }) => ({
+  post: one(postTable, {
+    fields: [postMediaTable.postId],
+    references: [postTable.id],
+  }),
 }));
 
-export const linkPreviewRelations = relations(linkPreview, ({ one }) => ({
-  post: one(post, { fields: [linkPreview.postId], references: [post.id] }),
+export const linkPreviewRelations = relations(linkPreviewTable, ({ one }) => ({
+  post: one(postTable, {
+    fields: [linkPreviewTable.postId],
+    references: [postTable.id],
+  }),
 }));
 
-export const postUserTagRelations = relations(postUserTag, ({ one }) => ({
-  post: one(post, { fields: [postUserTag.postId], references: [post.id] }),
-  user: one(user, { fields: [postUserTag.userId], references: [user.id] }),
+export const postUserTagRelations = relations(postUserTagTable, ({ one }) => ({
+  post: one(postTable, {
+    fields: [postUserTagTable.postId],
+    references: [postTable.id],
+  }),
+  user: one(userTable, {
+    fields: [postUserTagTable.userId],
+    references: [userTable.id],
+  }),
 }));

@@ -5,8 +5,14 @@ import { basicInfo } from "@tera/config";
 
 import "~/styles/globals.css";
 
+import { Suspense } from "react";
+import { connection } from "next/server";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+
 import Providers from "~/components/Providers";
 import { getBaseUrl } from "~/lib/helpers";
+import ourFileRouter from "~/lib/uploadthing";
 import { cn } from "~/lib/utils";
 
 export const metadata: Metadata = {
@@ -41,16 +47,25 @@ const geistMono = Geist_Mono({
   variable: "--font-mono",
 });
 
+async function UTS() {
+  await connection();
+
+  return <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />;
+}
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "overflow-x-hidden font-sans antialiased",
+          "font-sans antialiased",
           geistSans.variable,
           geistMono.variable,
         )}
       >
+        <Suspense>
+          <UTS />
+        </Suspense>
         <Providers>{props.children}</Providers>
       </body>
     </html>

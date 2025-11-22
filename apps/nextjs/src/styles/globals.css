@@ -8,11 +8,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@source './ui/*.{ts,tsx}';
-
-@variant dark (&:is(.dark *));
-@variant dark (@media (prefers-color-scheme: dark));
-
 @theme {
   /* Define custom animation utilities using --animate-* variables */
   --animate-shine: shine 2s linear infinite;
@@ -80,11 +75,18 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
 
   body {
     letter-spacing: var(--tracking-normal);
+    @apply bg-background text-foreground antialiased;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   /* For Webkit browsers (Chrome, Safari, Edge) */
@@ -132,5 +134,49 @@
   html {
     scrollbar-width: thin;
     scrollbar-color: var(--accent) var(--background); /* thumb track */
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge, Opera */
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  /* Standard responsive container: width 100% by default, steps up at breakpoints */
+  .container {
+    @apply mx-auto w-full px-8 sm:max-w-160 md:max-w-3xl lg:max-w-5xl xl:max-w-7xl 2xl:max-w-384;
+  }
+
+  /* Fluid container: full-bleed layout but keeps horizontal padding */
+  .container-fluid {
+    @apply mx-auto w-full px-8;
+  }
+
+  /* Narrow container for tighter content columns (steps up at md) */
+  .container-narrow {
+    @apply mx-auto w-full px-6 md:max-w-176;
+  }
+
+  /* container-sm: starts at sm (40rem), then steps up */
+  .container-sm {
+    @apply mx-auto w-full px-6 sm:max-w-160 md:max-w-3xl lg:max-w-5xl;
+  }
+
+  /* container-md: starts at md (48rem) and steps up from there */
+  .container-md {
+    @apply mx-auto w-full px-8 md:max-w-3xl lg:max-w-5xl xl:max-w-7xl;
+  }
+
+  /* container-lg: starts at lg (64rem) and steps up */
+  .container-lg {
+    @apply mx-auto w-full px-8 lg:max-w-5xl xl:max-w-7xl 2xl:max-w-384;
+  }
+
+  /* container-xl: starts at xl (80rem) and caps at xl breakpoint (1400px / 87.5rem) */
+  .container-xl {
+    @apply mx-auto w-full px-8 xl:max-w-7xl 2xl:max-w-350;
   }
 }

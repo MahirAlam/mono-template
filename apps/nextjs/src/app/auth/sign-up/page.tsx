@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -98,6 +98,11 @@ const SignUp = () => {
     });
 
     if (error) {
+      form.setError("root", {
+        type: "validate",
+        message: error.message,
+      });
+
       // assuming `error` is from your auth call
       toasts.destructive(error.message, {
         description: "Please try again later or contact support.",
@@ -244,6 +249,11 @@ const SignUp = () => {
                 </FormItem>
               )}
             />
+            {form.formState.errors.root && (
+              <p className="text-destructive text-sm">
+                {form.formState.errors.root.message}
+              </p>
+            )}
             <Button
               type="submit"
               className="w-full"
@@ -258,7 +268,7 @@ const SignUp = () => {
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm">
+      <CardFooter className="mt-2 flex justify-center text-sm">
         <p className="text-muted-foreground">
           Already have an account?{" "}
           <Link

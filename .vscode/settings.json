@@ -11,8 +11,10 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "cSpell.words": [
     "daveyplate",
+    "Dedup",
     "ilike",
     "legendapp",
+    "overscan",
     "reuseables",
     "rgba",
     "tabler",

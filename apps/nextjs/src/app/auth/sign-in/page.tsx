@@ -164,7 +164,7 @@ const SignIn = () => {
           Sign In With Discord
         </Button>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm">
+      <CardFooter className="mt-2 flex justify-center text-sm">
         <p className="text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link

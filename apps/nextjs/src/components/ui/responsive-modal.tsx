@@ -116,7 +116,7 @@ const ResponsiveModalTitle = React.forwardRef<
   >
     {props.children}
     <ResponsiveModalClose className="ring-offset-background focus:ring-ring data-[state=open]:bg-secondary rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none">
-      <X className="h-6 w-6" />
+      <X className="size-6" />
       <span className="sr-only">Close</span>
     </ResponsiveModalClose>
   </DialogPrimitive.Title>

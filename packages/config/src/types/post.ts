@@ -1,12 +1,21 @@
-import { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 // Define a type for our visibility options for strong type safety
-export type VisibilityOption = {
+export interface VisibilityOption {
   id: string;
   name: string;
   description: string;
   icon: LucideIcon;
-  requiresFriends?: boolean;
   requiresFriendSelector?: boolean;
-  requiresLists?: boolean;
+  // Filter string stored in DB (e.g. 'public', 'friends', 'specific-friends')
+  // `filter` can be either a simple string (e.g. "public", "friends")
+  // or an array of ids to represent user-selected lists/people.
+  filter?: string | string[];
+}
+
+// Define a type for our reaction options for strong type safety
+export type QuickReaction = {
+  id: string; // Pre-generated, stable UUIDs
+  name: "Love" | "Like" | "Celebrate" | "Funny" | "Sad" | "Angry";
+  displayCode: string; // The emoji character
 };

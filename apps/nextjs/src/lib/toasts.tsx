@@ -36,23 +36,23 @@ const createToast = (
   const variantConfig = {
     success: {
       Icon: CheckCircle2,
-      iconClassName: "!text-success-foreground",
-      className: "!text-success-foreground",
+      iconClassName: "!text-success",
+      className: "!text-success",
     },
     info: {
       Icon: Info,
-      iconClassName: "!text-info-foreground",
-      className: "!text-info-foreground",
+      iconClassName: "!text-info",
+      className: "!text-info",
     },
     warning: {
       Icon: AlertTriangle,
-      className: "!text-warning-foreground",
-      iconClassName: "!text-warning-foreground",
+      className: "!text-warning",
+      iconClassName: "!text-warning",
     },
     destructive: {
       Icon: AlertCircle,
-      iconClassName: "!text-destructive-foreground",
-      className: "!text-destructive-foreground",
+      iconClassName: "!text-destructive",
+      className: "!text-destructive",
     },
   };
 
@@ -75,10 +75,8 @@ const createToast = (
       toast: `${options?.classNames?.toast ?? ""} !bg-card/95 !gap-2 !border-border !border-1 ${className}`,
       description: "!text-muted-foreground",
       // Action button styles that work well on both light and dark backgrounds
-      actionButton:
-        "group-[.toast]:bg-white/10 group-[.toast]:text-inherit group-[.toast]:hover:bg-white/20 dark:group-[.toast]:bg-black/20 dark:group-[.toast]:hover:bg-black/30",
-      closeButton:
-        "group-[.toast]:bg-transparent group-[.toast]:border-transparent group-[.toast]:hover:bg-black/5 dark:group-[.toast]:hover:bg-white/10",
+      actionButton: "!bg-transparent !text-card-foreground",
+      closeButton: "!bg-transparent !text-card-foreground",
     },
   });
 };

@@ -1,34 +1,41 @@
 "use client";
 
-import type { Variants } from "motion/react";
-import { motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 
 import LeftSidebar from "~/components/layout/home/left-sidebar";
 import MainContent from "~/components/layout/home/main-content";
 import RightSidebar from "~/components/layout/home/right-sidebar";
-
-// Stagger the children components for a flowing animation
-const staggerContainerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2, // A slightly slower stagger for a more elegant feel
-    },
-  },
-};
+import useHeaderVisibility from "~/hooks/useHeaderVisibility";
 
 export default function HomePage() {
+  const isHidden = useHeaderVisibility();
+
   return (
-    <motion.main
-      variants={staggerContainerVariants}
-      initial="hidden"
-      animate="visible"
-      className="grid grid-cols-1 items-start gap-4 pt-4 md:grid-cols-6 md:px-6 md:pt-6 lg:grid-cols-12 lg:gap-8"
-    >
-      <LeftSidebar />
-      <MainContent />
-      <RightSidebar />
-    </motion.main>
+    <AnimatePresence>
+      <div className="grid grid-cols-12 px-4 pt-4 md:px-2 xl:px-4">
+        {/* Left Sidebar */}
+        <aside
+          className={`sticky col-span-5 hidden transition-all duration-300 ease-in-out md:block lg:col-span-3 ${
+            isHidden ? "top-4" : "top-20"
+          } h-fit`}
+        >
+          <LeftSidebar />
+        </aside>
+
+        {/* Main Content */}
+        <main className="col-span-12 md:col-span-7 lg:col-span-6">
+          <MainContent />
+        </main>
+
+        {/* Right Sidebar */}
+        <aside
+          className={`sticky col-span-5 hidden transition-all duration-300 ease-in-out md:block lg:col-span-3 ${
+            isHidden ? "top-4" : "top-20"
+          } h-fit`}
+        >
+          <RightSidebar />
+        </aside>
+      </div>
+    </AnimatePresence>
   );
 }

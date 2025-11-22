@@ -9,27 +9,26 @@ import { cn } from "~/lib/utils";
 
 const buttonVariants = cva(
   // Base styles
-  "ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         // All color variants are unchanged
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        destructive: "bg-destructive text-foreground hover:bg-destructive/90",
         outline:
           "border-input bg-accent/50 hover:bg-accent hover:text-accent-foreground border",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        success: "bg-success text-success-foreground hover:bg-success/90",
+        success: "bg-success text-foreground hover:bg-success/90",
         "success-outline":
           "border-success text-success hover:bg-success/10 border",
-        warning: "bg-warning text-warning-foreground hover:bg-warning/90",
+        warning: "bg-warning text-foreground hover:bg-warning/90",
         "warning-outline":
           "border-warning text-warning hover:bg-warning/10 border",
-        info: "bg-info text-info-foreground hover:bg-info/90",
+        info: "bg-info text-foreground hover:bg-info/90",
         "info-outline": "border-info text-info hover:bg-info/10 border",
       },
       effect: {
@@ -58,8 +57,8 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
+        sm: "h-9 rounded-lg px-3",
+        lg: "h-11 rounded-lg px-8",
         icon: "h-10 w-10",
       },
     },

@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { desc, ilike } from "@tera/db";
-import { hashtag } from "@tera/db/schema";
+import { hashtagTable } from "@tera/db/schema";
 
 import { publicProcedure } from "../trpc";
 
@@ -25,24 +25,24 @@ export const hashtagRouter = {
           // Use case-insensitive search with proper indexing
           results = await ctx.db
             .select({
-              id: hashtag.id,
-              tag: hashtag.tag,
-              usageCount: hashtag.usageCount,
+              id: hashtagTable.id,
+              tag: hashtagTable.tag,
+              usageCount: hashtagTable.usageCount,
             })
-            .from(hashtag)
-            .where(ilike(hashtag.tag, `%${query.trim()}%`))
-            .orderBy(desc(hashtag.usageCount))
+            .from(hashtagTable)
+            .where(ilike(hashtagTable.tag, `%${query.trim()}%`))
+            .orderBy(desc(hashtagTable.usageCount))
             .limit(limit);
         } else {
           // Get most popular hashtags
           results = await ctx.db
             .select({
-              id: hashtag.id,
-              tag: hashtag.tag,
-              usageCount: hashtag.usageCount,
+              id: hashtagTable.id,
+              tag: hashtagTable.tag,
+              usageCount: hashtagTable.usageCount,
             })
-            .from(hashtag)
-            .orderBy(desc(hashtag.usageCount))
+            .from(hashtagTable)
+            .orderBy(desc(hashtagTable.usageCount))
             .limit(limit);
         }
 
