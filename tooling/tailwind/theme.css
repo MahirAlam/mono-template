@@ -85,14 +85,14 @@
   --primary: oklch(70% 0.18 280); /* Vibrant lavender stays */
   --primary-foreground: oklch(98% 0.01 280);
 
-  --secondary: oklch(45% 0.04 85); /* Warm olive-gray */
+  --secondary: oklch(47.86% 0.10951 280.805); /* Warm olive-gray */
   --secondary-foreground: oklch(95% 0.01 85);
 
   --muted: var(--surface-3);
   --muted-foreground: oklch(70% 0.015 50);
 
-  --accent: oklch(0.37 0.03 302.99); /* Duolingo-inspired soft green */
-  --accent-foreground: oklch(98% 0.01 302.222);
+  --accent: var(--surface-3);
+  --accent-foreground: var(--foreground);
 
   --destructive: oklch(65% 0.22 25);
   --destructive-foreground: oklch(98% 0.01 25);

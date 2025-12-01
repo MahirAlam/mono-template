@@ -62,6 +62,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           geistSans.variable,
           geistMono.variable,
         )}
+        id="main-body"
       >
         <Suspense>
           <UTS />

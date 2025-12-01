@@ -9,7 +9,7 @@ import { cn } from "~/lib/utils";
 
 const buttonVariants = cva(
   // Base styles
-  "ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -142,7 +142,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, effect, className }))}
+        className={cn(
+          buttonVariants({ variant, size, effect, className }),
+          "[&_svg]:size-4 [&_svg]:shrink-0",
+        )}
         ref={ref}
         {...props}
       >

@@ -85,7 +85,10 @@ const createToast = (
 export const toasts = {
   /** Displays a success toast. Auto-adapts to light/dark mode. */
   success: (title: React.ReactNode, options?: ExternalToast) =>
-    createToast("success", title, options),
+    createToast("success", title, {
+      ...options,
+      duration: options?.duration ?? 5000,
+    }),
 
   /** Displays an informational toast. Auto-adapts to light/dark mode. */
   info: (title: React.ReactNode, options?: ExternalToast) =>

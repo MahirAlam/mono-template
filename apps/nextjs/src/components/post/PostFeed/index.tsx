@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { Loader2 } from "lucide-react";
 
 import { MAX_POST_FETCH_LIMIT } from "@tera/config";
 import { GetFeedSchemaType } from "@tera/validators";
@@ -17,6 +18,7 @@ interface PostFeedProps {
 
 const PostFeed = ({ feedFor, userId }: PostFeedProps) => {
   const trpc = useTRPC();
+  const parentRef = useRef<HTMLDivElement>(null);
 
   const input: GetFeedSchemaType = {
     limit: MAX_POST_FETCH_LIMIT,
@@ -24,52 +26,47 @@ const PostFeed = ({ feedFor, userId }: PostFeedProps) => {
     feedFor,
   };
 
-  const {
-    data: AllPost,
-    hasNextPage,
-    error,
-    status,
-    isFetching,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useInfiniteQuery(
-    trpc.post.getFeed.infiniteQueryOptions(input, {
-      getNextPageParam: (last) => last.nextCursor ?? null,
-    }),
-  );
+  const { data, hasNextPage, status, isFetchingNextPage, fetchNextPage } =
+    useInfiniteQuery(
+      trpc.post.getFeed.infiniteQueryOptions(input, {
+        getNextPageParam: (last) => last.nextCursor ?? null,
+        refetchOnWindowFocus: false, // Prevent jarring jumps when tabbing back
+      }),
+    );
 
-  const posts = (AllPost?.pages ?? []).flatMap((p) => p.posts);
+  // Flatten posts with memoization
+  const posts = useMemo(() => {
+    return data?.pages.flatMap((page) => page.posts) ?? [];
+  }, [data?.pages]);
 
-  // ----------------------------
-  // 🔥 The Window Virtualizer!
-  // ----------------------------
+  // 🔥 Window Virtualizer
   const virtualizer = useVirtualizer({
     count: hasNextPage ? posts.length + 1 : posts.length,
-    estimateSize: () => 220,
-    measureElement: (el) => el.getBoundingClientRect().height,
-    getScrollElement: () => document.scrollingElement,
+    estimateSize: () => 300, // Slightly increased estimate for media cards
+    getScrollElement: () =>
+      typeof window !== "undefined"
+        ? window.document.getElementById("main-body")
+        : null,
     overscan: 5,
+    measureElement: (el) => el.getBoundingClientRect().height,
     getItemKey: (index) => {
       const post = posts[index];
-      return post ? post.id : `loader-${index}`;
+      // Use post ID for posts, specific key for loader
+      return post ? post.id : `feed-loader-${index}`;
     },
   });
 
   const virtualItems = virtualizer.getVirtualItems();
 
-  // ----------------------------
   // 🔥 Infinite scroll trigger
-  // ----------------------------
   useEffect(() => {
-    if (virtualItems.length === 0) return;
+    if (!virtualItems.length) return;
 
     const lastItem = virtualItems[virtualItems.length - 1];
 
-    if (!lastItem) {
-      return;
-    }
-
+    // Check if we are near the end and valid to fetch
     if (
+      lastItem &&
       lastItem.index >= posts.length - 1 &&
       hasNextPage &&
       !isFetchingNextPage
@@ -84,42 +81,78 @@ const PostFeed = ({ feedFor, userId }: PostFeedProps) => {
     fetchNextPage,
   ]);
 
-  // ----------------------------
-  // 🔥 Render
-  // ----------------------------
-  if (status === "pending") return <p>Loading...</p>;
-  if (status === "error") return <p>Error: {error.message}</p>;
+  if (status === "pending") {
+    return (
+      <div className="flex h-40 w-full items-center justify-center">
+        <Loader2 className="text-primary size-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <div className="py-10 text-center text-red-500">
+        Failed to load feed. Please try again.
+      </div>
+    );
+  }
+
+  if (posts.length === 0) {
+    return (
+      <div className="text-muted-foreground py-10 text-center">
+        No posts found.
+      </div>
+    );
+  }
 
   return (
-    <div
-      style={{
-        height: virtualizer.getTotalSize(),
-        position: "relative",
-      }}
-      className="space-y-3"
-    >
-      {virtualItems.map((virtualRow) => {
-        const index = virtualRow.index;
-        const post = posts[index];
-        const isLoaderRow = index > posts.length - 1;
+    <div className="mx-auto w-full max-w-2xl">
+      <div
+        style={{
+          height: virtualizer.getTotalSize(),
+          position: "relative",
+        }}
+      >
+        {virtualItems.map((virtualRow) => {
+          const index = virtualRow.index;
+          const post = posts[index];
+          const isLoaderRow = index > posts.length - 1;
 
-        return (
-          <div key={virtualRow.key} ref={virtualizer.measureElement}>
-            {isLoaderRow ? (
-              hasNextPage ? (
-                <p className="py-4 text-center">Loading more...</p>
-              ) : (
-                <p className="py-4 text-center">Nothing more to load</p>
-              )
-            ) : post ? (
-              <PostCard post={post} />
-            ) : null}
-          </div>
-        );
-      })}
-      {isFetching && !isFetchingNextPage && (
-        <div className="py-2 text-center">Background Updating...</div>
-      )}
+          return (
+            <div
+              key={virtualRow.key}
+              data-index={virtualRow.index}
+              ref={virtualizer.measureElement}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+              className="px-2 pb-4" // Padding between posts
+            >
+              {isLoaderRow ? (
+                <div className="flex w-full justify-center py-4">
+                  {hasNextPage ? (
+                    <Loader2 className="text-muted-foreground size-6 animate-spin" />
+                  ) : (
+                    <div className="flex w-full items-center gap-4 py-4">
+                      <div className="bg-border h-px flex-1" />
+                      <span className="text-muted-foreground text-xs">
+                        You&apos;re all caught up
+                      </span>
+                      <div className="bg-border h-px flex-1" />
+                    </div>
+                  )}
+                </div>
+              ) : post ? (
+                <PostCard post={post} />
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
